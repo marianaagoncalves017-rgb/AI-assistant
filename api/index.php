@@ -1,91 +1,3 @@
-<?php
-// Configuração da API do Gemini (Lê variável de ambiente da Vercel ou usa a chave direta como fallback)
-define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: 'AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg');
-
-// Processamento da pergunta via AJAX / POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'chat') {
-    header('Content-Type: application/json');
-    
-    $userQuestion = trim($_POST['question'] ?? '');
-
-    if (empty($userQuestion)) {
-        echo json_encode(['error' => 'Pergunta vazia.']);
-        exit;
-    }
-
-    // BASE DE DADOS DE CONHECIMENTO REAL DO SITE DA ETPC (https://etpc.pt/)
-    $escolaContexto = "
-    [INFORMACÃO GERAL E SOBRE A ESCOLA]
-    - Nome: ETPC - Escola Profissional Tecnológica do Canto (Cantanhede)
-    - Descrição: A ETPC é uma instituição de ensino profissional focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores, oferecendo cursos com Formação em Contexto de Trabalho (estágios).
-    - Página Sobre: https://etpc.pt/
-
-    [CONTACTOS E LOCALIZAÇÃO REAL]
-    - Morada: Cantanhede, Portugal
-    - Email de Contacto: geral@etpc.pt
-    - Página de Contactos: https://etpc.pt/contactos
-
-    [OFERTA FORMATIVA / CURSOS PROFISSIONAIS DA ETPC]
-    - Cursos Profissionais de Nível 4 (Equivalência ao 12º ano + Certificação Profissional):
-      * Técnico de Gestão e Programação de Sistemas Informáticos
-      * Técnico de Eletrónica, Automação e Comando
-      * Técnico de Restauração (Cozinha/Pastelaria e Bar)
-      * Técnico de Multimédia / Design
-    - Página de Cursos: https://etpc.pt/cursos
-
-    [ADMISSÕES E INSCRIÇÕES]
-    - Candidaturas: Abertas para alunos que concluíram o 9º ano de escolaridade (ou equivalente).
-    - Apoios aos Alunos: Possibilidade de subsídio de transporte, alimentação e bolsa de material escolar consoante as condições aplicáveis.
-    - Página de Inscrições: https://etpc.pt/inscricoes
-    ";
-
-    // SYSTEM PROMPT - Ancoragem rigorosa no contexto do site etpc.pt
-    $systemInstruction = "
-    És o assistente virtual oficial da ETPC - Escola Profissional Tecnológica do Canto (disponível em https://etpc.pt/).
-    
-    REGRAS STRICTAS DE RESPOSTA:
-    1. Responde APENAS utilizando a informação fornecida no CONTEXTO DA ETPC abaixo (extraído do site oficial etpc.pt).
-    2. Se a resposta à pergunta não estiver presente ou não for possível confirmá-la no CONTEXTO DA ETPC, responde exatamente: 'Lamento, mas não tenho informação suficiente no site da escola para responder a essa questão.'
-    3. Se o utilizador perguntar sobre assuntos alheios à escola (ex: futebol, culinária geral, política, receitas, jogos), recusa educadamente responder, indicando que apenas respondes a questões sobre a ETPC.
-    4. Não inventes dados nem faças suposições.
-    5. Sempre que responderes a uma dúvida válida, inclui no final o link correspondente da página oficial do site https://etpc.pt/ que fundamenta essa resposta.
-    
-    CONTEXTO DA ETPC:
-    " . $escolaContexto;
-
-    // Chamada à API do Gemini (Uso do modelo gemini-1.5-flash)
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . GEMINI_API_KEY;
-
-    $data = [
-        "contents" => [
-            [
-                "parts" => [
-                    ["text" => $systemInstruction . "\n\nPERGUNTA DO UTILIZADOR: " . $userQuestion]
-                ]
-            ]
-        ]
-    ];
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($httpCode === 200) {
-        $result = json_decode($response, true);
-        $reply = $result['candidates'][0]['content']['parts'][0]['text'] ?? 'Erro ao processar resposta.';
-        echo json_encode(['reply' => $reply]);
-    } else {
-        echo json_encode(['reply' => 'O assistente está temporariamente indisponível. Por favor, tenta mais tarde.']);
-    }
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -131,6 +43,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     </div>
 
     <script>
+        // Chave de API do Gemini direta no Frontend
+        const GEMINI_API_KEY = "AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg";
+
+        // Contexto Oficial do site etpc.pt
+        const escolaContexto = `
+        [INFORMACÃO GERAL E SOBRE A ESCOLA]
+        - Nome: ETPC - Escola Profissional Tecnológica do Canto (Cantanhede)
+        - Descrição: A ETPC é uma instituição de ensino profissional focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores, oferecendo cursos com Formação em Contexto de Trabalho (estágios).
+        - Página Sobre: https://etpc.pt/
+
+        [CONTACTOS E LOCALIZAÇÃO REAL]
+        - Morada: Cantanhede, Portugal
+        - Email de Contacto: geral@etpc.pt
+        - Página de Contactos: https://etpc.pt/contactos
+
+        [OFERTA FORMATIVA / CURSOS PROFISSIONAIS DA ETPC]
+        - Cursos Profissionais de Nível 4 (Equivalência ao 12º ano + Certificação Profissional):
+          * Técnico de Gestão e Programação de Sistemas Informáticos
+          * Técnico de Eletrónica, Automação e Comando
+          * Técnico de Restauração (Cozinha/Pastelaria e Bar)
+          * Técnico de Multimédia / Design
+        - Página de Cursos: https://etpc.pt/cursos
+
+        [ADMISSÕES E INSCRIÇÕES]
+        - Candidaturas: Abertas para alunos que concluíram o 9º ano de escolaridade (ou equivalente).
+        - Apoios aos Alunos: Possibilidade de subsídio de transporte, alimentação e bolsa de material escolar consoante as condições aplicáveis.
+        - Página de Inscrições: https://etpc.pt/inscricoes
+        `;
+
+        const systemInstruction = `
+        És o assistente virtual oficial da ETPC - Escola Profissional Tecnológica do Canto (disponível em https://etpc.pt/).
+        
+        REGRAS STRICTAS DE RESPOSTA:
+        1. Responde APENAS utilizando a informação fornecida no CONTEXTO DA ETPC abaixo (extraído do site oficial etpc.pt).
+        2. Se a resposta à pergunta não estiver presente no CONTEXTO DA ETPC, responde exatamente: 'Lamento, mas não tenho informação suficiente no site da escola para responder a essa questão.'
+        3. Se o utilizador perguntar sobre assuntos alheios à escola (ex: futebol, culinária geral, política, jogos), recusa educadamente responder.
+        4. Não inventes dados.
+        5. Sempre que responderes a uma dúvida válida, inclui no final o link correspondente da página oficial do site https://etpc.pt/ que fundamenta essa resposta.
+        
+        CONTEXTO DA ETPC:
+        ${escolaContexto}
+        `;
+
         function handleKeyPress(event) {
             if (event.key === 'Enter') sendMessage();
         }
@@ -149,21 +104,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             const loadingDiv = appendMessage('A consultar o site da escola...', 'bot');
 
             try {
-                const formData = new FormData();
-                formData.append('action', 'chat');
-                formData.append('question', question);
-
-                const response = await fetch('/api/index.php', {
+                // Chamada direta à API da Google Gemini
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                     method: 'POST',
-                    body: formData
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: `${systemInstruction}\n\nPERGUNTA DO UTILIZADOR: ${question}` }]
+                        }]
+                    })
                 });
 
-                if (!response.ok) throw new Error('Erro no servidor.');
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status}`);
+                }
 
                 const data = await response.json();
-                const replyText = data.reply || 'Lamento, ocorreu um erro ao processar a resposta.';
+                const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Lamento, ocorreu um erro ao processar a resposta.';
                 
-                // Formatar URLs para hiperligações clicáveis
+                // Converte links de texto em hiperligações HTML clicáveis
                 const formattedReply = replyText.replace(
                     /(https?:\/\/[^\s]+)/g, 
                     '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
@@ -172,7 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 loadingDiv.innerHTML = formattedReply;
 
             } catch (error) {
-                loadingDiv.textContent = 'O assistente está temporariamente indisponível. Por favor, tenta mais tarde.';
+                console.error('Erro de Comunicação:', error);
+                loadingDiv.textContent = 'Erro ao contactar a API do Gemini. Verifica a tua ligação ou chave de API.';
             }
 
             chatBody.scrollTop = chatBody.scrollHeight;
