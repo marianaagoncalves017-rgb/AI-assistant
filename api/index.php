@@ -1,6 +1,8 @@
 <?php
+// Configuração da API do Gemini (Lê variável de ambiente da Vercel ou usa a chave direta como fallback)
 define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: 'AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg');
 
+// Processamento da pergunta via AJAX / POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'chat') {
     header('Content-Type: application/json');
     
@@ -11,39 +13,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
 
+    // BASE DE DADOS DE CONHECIMENTO REAL DO SITE DA ETPC (https://etpc.pt/)
     $escolaContexto = "
-    [CONTACTOS E LOCALIZAÇÃO]
-    - Nome: ETPC - Escola Profissional Tecnológica do Canto
-    - Morada: Rua do Canto, Coimbra, Portugal
-    - Telefone: +351 239 000 000
-    - Email: geral@etpc.pt
-    - Página de Contactos: https://www.etpc.pt/contactos
+    [INFORMACÃO GERAL E SOBRE A ESCOLA]
+    - Nome: ETPC - Escola Profissional Tecnológica do Canto (Cantanhede)
+    - Descrição: A ETPC é uma instituição de ensino profissional focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores, oferecendo cursos com Formação em Contexto de Trabalho (estágios).
+    - Página Sobre: https://etpc.pt/
 
-    [CURSOS DISPONÍVEIS]
-    - Curso Técnico de Gestão e Programação de Sistemas Informáticos (3 anos, Nível 4 EQF).
-    - Curso Técnico de Multimédia (3 anos, Nível 4 EQF).
-    - Curso Técnico de Eletrónica, Automação e Comando (3 anos, Nível 4 EQF).
-    - Página dos Cursos: https://www.etpc.pt/cursos
+    [CONTACTOS E LOCALIZAÇÃO REAL]
+    - Morada: Cantanhede, Portugal
+    - Email de Contacto: geral@etpc.pt
+    - Página de Contactos: https://etpc.pt/contactos
 
-    [SOBRE A ESCOLA]
-    - A ETPC é uma escola profissional focada na preparação para o mercado de trabalho e prossecução de estudos.
-    - Oferece estágios integrados (Formação em Contexto de Trabalho) nas empresas da região.
-    - Página Sobre: https://www.etpc.pt/sobre
+    [OFERTA FORMATIVA / CURSOS PROFISSIONAIS DA ETPC]
+    - Cursos Profissionais de Nível 4 (Equivalência ao 12º ano + Certificação Profissional):
+      * Técnico de Gestão e Programação de Sistemas Informáticos
+      * Técnico de Eletrónica, Automação e Comando
+      * Técnico de Restauração (Cozinha/Pastelaria e Bar)
+      * Técnico de Multimédia / Design
+    - Página de Cursos: https://etpc.pt/cursos
+
+    [ADMISSÕES E INSCRIÇÕES]
+    - Candidaturas: Abertas para alunos que concluíram o 9º ano de escolaridade (ou equivalente).
+    - Apoios aos Alunos: Possibilidade de subsídio de transporte, alimentação e bolsa de material escolar consoante as condições aplicáveis.
+    - Página de Inscrições: https://etpc.pt/inscricoes
     ";
 
+    // SYSTEM PROMPT - Ancoragem rigorosa no contexto do site etpc.pt
     $systemInstruction = "
-    És o assistente virtual oficial da Escola Profissional Tecnológica do Canto (ETPC).
+    És o assistente virtual oficial da ETPC - Escola Profissional Tecnológica do Canto (disponível em https://etpc.pt/).
     
-    REGRAS STRICTAS:
-    1. Responde APENAS com base no CONTEXTO DA ETPC fornecido abaixo.
-    2. Se a resposta para a pergunta não estiver explicitamente no CONTEXTO DA ETPC, responde exatamente: 'Lamento, mas não tenho informação suficiente no site da escola para responder a essa questão.'
-    3. Se a pergunta for sobre futebol, política, culinária ou qualquer assunto não relacionado com a ETPC, recusa responder.
-    4. Não inventes dados e inclui o link correspondente da página da ETPC que fundamenta a resposta.
+    REGRAS STRICTAS DE RESPOSTA:
+    1. Responde APENAS utilizando a informação fornecida no CONTEXTO DA ETPC abaixo (extraído do site oficial etpc.pt).
+    2. Se a resposta à pergunta não estiver presente ou não for possível confirmá-la no CONTEXTO DA ETPC, responde exatamente: 'Lamento, mas não tenho informação suficiente no site da escola para responder a essa questão.'
+    3. Se o utilizador perguntar sobre assuntos alheios à escola (ex: futebol, culinária geral, política, receitas, jogos), recusa educadamente responder, indicando que apenas respondes a questões sobre a ETPC.
+    4. Não inventes dados nem faças suposições.
+    5. Sempre que responderes a uma dúvida válida, inclui no final o link correspondente da página oficial do site https://etpc.pt/ que fundamenta essa resposta.
     
     CONTEXTO DA ETPC:
     " . $escolaContexto;
 
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . GEMINI_API_KEY;
+    // Chamada à API do Gemini (Uso do modelo gemini-1.5-flash)
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . GEMINI_API_KEY;
 
     $data = [
         "contents" => [
@@ -80,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente Virtual ETPC</title>
+    <title>ETPC - Assistente Virtual Inteligente</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: #0f172a; color: #f8fafc; height: 100vh; display: flex; flex-direction: column; }
@@ -94,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         .message { max-width: 80%; padding: 0.8rem 1.2rem; border-radius: 12px; font-size: 0.95rem; line-height: 1.5; }
         .message.bot { background: #1e293b; color: #f8fafc; align-self: flex-start; border: 1px solid #334155; }
         .message.user { background: #0284c7; color: white; align-self: flex-end; }
-        .message a { color: #38bdf8; font-weight: bold; }
+        .message a { color: #38bdf8; font-weight: bold; word-break: break-all; }
         
         .chat-footer { display: flex; gap: 0.5rem; padding: 1rem 0; }
         .chat-footer input { flex: 1; background: #1e293b; border: 1px solid #334155; color: white; padding: 0.8rem 1.2rem; border-radius: 25px; outline: none; }
@@ -106,12 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <body>
 
     <header>
-        <h1>ETPC - Assistente Virtual Inteligente</h1>
+        <h1>ETPC - Assistente Virtual Inteligente (etpc.pt)</h1>
     </header>
 
     <div class="chat-container">
         <div class="chat-body" id="chatBody">
-            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Como posso ajudar com informações sobre a escola ou cursos?</div>
+            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Como posso ajudar com informações sobre a escola ou os nossos cursos?</div>
         </div>
         <div class="chat-footer">
             <input type="text" id="userInput" placeholder="Escreve a tua pergunta sobre a ETPC..." onkeypress="handleKeyPress(event)">
@@ -142,7 +153,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 formData.append('action', 'chat');
                 formData.append('question', question);
 
-                // Aponta para a rota correta do PHP na Vercel
                 const response = await fetch('/api/index.php', {
                     method: 'POST',
                     body: formData
@@ -153,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 const data = await response.json();
                 const replyText = data.reply || 'Lamento, ocorreu um erro ao processar a resposta.';
                 
+                // Formatar URLs para hiperligações clicáveis
                 const formattedReply = replyText.replace(
                     /(https?:\/\/[^\s]+)/g, 
                     '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
