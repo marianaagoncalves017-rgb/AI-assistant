@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
 
-    // 1. BASE DE DADOS DE CONHECIMENTO DA ETPC (Extraída do site oficial)
+    // BASE DE DADOS DE CONHECIMENTO DA ETPC (Extraída do site oficial)
     $escolaContexto = "
     [CONTACTOS E LOCALIZAÇÃO]
     - Nome: ETPC - Escola Profissional Tecnológica do Canto
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     - Página Sobre: https://www.etpc.pt/sobre
     ";
 
-    // 2. SYSTEM PROMPT (Regras rigorosas para a IA)
+    // SYSTEM PROMPT (Regras rigorosas para a IA)
     $systemInstruction = "
     És o assistente virtual oficial da Escola Profissional Tecnológica do Canto (ETPC).
     
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     CONTEXTO DA ETPC:
     " . $escolaContexto;
 
-    // 3. PEDIDO À API DO GEMINI
+    // PEDIDO À API DO GEMINI
     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . GEMINI_API_KEY;
 
     $data = [
@@ -87,45 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ETPC - Escola Profissional Tecnológica do Canto</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f6f9; color: #333; line-height: 1.6; }
-        
-        /* Header / Navbar */
-        header { background: #004085; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 1.5rem; }
-        nav a { color: white; text-decoration: none; margin-left: 15px; font-weight: 500; }
-
-        /* Hero Section */
-        .hero { background: linear-gradient(135deg, #004085, #007bff); color: white; padding: 4rem 2rem; text-align: center; }
-        .hero h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem; }
-        .btn-primary { background: #ffc107; color: #212529; padding: 0.8rem 1.5rem; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; text-decoration: none; }
-
-        /* Content Sections */
-        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card h3 { color: #004085; margin-bottom: 0.5rem; }
-
-        /* Chatbot Widget */
-        .chat-widget-btn { position: fixed; bottom: 20px; right: 20px; background: #007bff; color: white; border: none; border-radius: 50px; padding: 15px 25px; font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; }
-        
-        .chat-window { display: none; position: fixed; bottom: 80px; right: 20px; width: 360px; height: 480px; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); flex-direction: column; z-index: 1000; overflow: hidden; }
-        .chat-header { background: #004085; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
-        .chat-header h4 { margin: 0; font-size: 1rem; }
-        .close-btn { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
-        
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; }
-        .message { max-width: 80%; padding: 10px 14px; border-radius: 15px; font-size: 0.9rem; line-height: 1.4; word-wrap: break-word; }
-        .message.bot { background: #e9ecef; color: #212529; align-self: flex-start; border-bottom-left-radius: 2px; }
-        .message.user { background: #007bff; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .message a { color: #004085; font-weight: bold; }
-
-        .chat-footer { padding: 10px; background: white; border-top: 1px solid #ddd; display: flex; gap: 5px; }
-        .chat-footer input { flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 20px; outline: none; }
-        .chat-footer button { background: #007bff; color: white; border: none; border-radius: 50px; padding: 8px 15px; cursor: pointer; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -139,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     </header>
 
     <section class="hero">
-        <h2>Construi o teu futuro profissional na ETPC</h2>
+        <h2>Constrói o teu futuro profissional na ETPC</h2>
         <p>Cursos de dupla certificação com forte ligação às empresas e elevado nível de empregabilidade.</p>
         <button class="btn-primary" onclick="toggleChat()">Falar com o Assistente Virtual</button>
     </section>
@@ -164,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         </section>
     </div>
 
-    <!-- Chatbot Floating Widget -->
+    <!-- Botão Flutuante e Janela do Chatbot -->
     <button class="chat-widget-btn" onclick="toggleChat()">💬 Dúvidas? Pergunta aqui</button>
 
     <div class="chat-window" id="chatWindow">
@@ -181,62 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         </div>
     </div>
 
-    <script>
-        function toggleChat() {
-            const chatWindow = document.getElementById('chatWindow');
-            chatWindow.style.display = (chatWindow.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const chatBody = document.getElementById('chatBody');
-            const question = input.value.trim();
-
-            if (!question) return;
-
-            // Mostra a pergunta do utilizador
-            appendMessage(question, 'user');
-            input.value = '';
-
-            // Mensagem de carregamento
-            const loadingDiv = appendMessage('A pensar...', 'bot');
-
-            try {
-                const formData = new FormData();
-                formData.append('action', 'chat');
-                formData.append('question', question);
-
-                const response = await fetch('index.php', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await response.json();
-                
-                // Converte URLs no texto em links clicáveis
-                let formattedReply = data.reply.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-                loadingDiv.innerHTML = formattedReply;
-
-            } catch (error) {
-                loadingDiv.textContent = 'Serviço temporariamente indisponível. Tenta mais tarde.';
-            }
-
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function appendMessage(text, sender) {
-            const chatBody = document.getElementById('chatBody');
-            const msg = document.createElement('div');
-            msg.className = `message ${sender}`;
-            msg.textContent = text;
-            chatBody.appendChild(msg);
-            chatBody.scrollTop = chatBody.scrollHeight;
-            return msg;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
