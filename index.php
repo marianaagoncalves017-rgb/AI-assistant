@@ -1,6 +1,6 @@
 <?php
-// Substitui a constante pela tua chave de API gerada
-define('GEMINI_API_KEY', 'AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg');
+// Configuração da API do Gemini (Lê variável de ambiente ou usa a chave direta como fallback)
+define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: 'AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg');
 
 // Processamento da pergunta via AJAX / POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'chat') {
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     " . $escolaContexto;
 
     // PEDIDO À API DO GEMINI
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . GEMINI_API_KEY;
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . GEMINI_API_KEY;
 
     $data = [
         "contents" => [
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ETPC - Escola Profissional Tecnológica do Canto</title>
     
-    <!-- CSS INCLUÍDO DIRECTAMENTE NO INDEX -->
+    <!-- CSS INCLUÍDO DIRETAMENTE NO INDEX -->
     <style>
         /* Reset e Estilos Globais */
         * {
@@ -374,7 +374,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         </div>
     </div>
 
-    <!-- JAVASCRIPT INCLUÍDO DIRECTAMENTE NO INDEX -->
+    <!-- JAVASCRIPT INCLUÍDO DIRETAMENTE NO INDEX -->
     <script>
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
