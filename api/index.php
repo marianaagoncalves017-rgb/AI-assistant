@@ -43,48 +43,13 @@
     </div>
 
     <script>
-        // Chave de API do Gemini direta no Frontend
-        const GEMINI_API_KEY = "AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg";
-
-        // Contexto Oficial do site etpc.pt
-        const escolaContexto = `
-        [INFORMACÃO GERAL E SOBRE A ESCOLA]
-        - Nome: ETPC - Escola Profissional Tecnológica do Canto (Cantanhede)
-        - Descrição: A ETPC é uma instituição de ensino profissional focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores, oferecendo cursos com Formação em Contexto de Trabalho (estágios).
-        - Página Sobre: https://etpc.pt/
-
-        [CONTACTOS E LOCALIZAÇÃO REAL]
-        - Morada: Cantanhede, Portugal
-        - Email de Contacto: geral@etpc.pt
-        - Página de Contactos: https://etpc.pt/contactos
-
-        [OFERTA FORMATIVA / CURSOS PROFISSIONAIS DA ETPC]
-        - Cursos Profissionais de Nível 4 (Equivalência ao 12º ano + Certificação Profissional):
-          * Técnico de Gestão e Programação de Sistemas Informáticos
-          * Técnico de Eletrónica, Automação e Comando
-          * Técnico de Restauração (Cozinha/Pastelaria e Bar)
-          * Técnico de Multimédia / Design
-        - Página de Cursos: https://etpc.pt/cursos
-
-        [ADMISSÕES E INSCRIÇÕES]
-        - Candidaturas: Abertas para alunos que concluíram o 9º ano de escolaridade (ou equivalente).
-        - Apoios aos Alunos: Possibilidade de subsídio de transporte, alimentação e bolsa de material escolar consoante as condições aplicáveis.
-        - Página de Inscrições: https://etpc.pt/inscricoes
-        `;
-
-        const systemInstruction = `
-        És o assistente virtual oficial da ETPC - Escola Profissional Tecnológica do Canto (disponível em https://etpc.pt/).
-        
-        REGRAS STRICTAS DE RESPOSTA:
-        1. Responde APENAS utilizando a informação fornecida no CONTEXTO DA ETPC abaixo (extraído do site oficial etpc.pt).
-        2. Se a resposta à pergunta não estiver presente no CONTEXTO DA ETPC, responde exatamente: 'Lamento, mas não tenho informação suficiente no site da escola para responder a essa questão.'
-        3. Se o utilizador perguntar sobre assuntos alheios à escola (ex: futebol, culinária geral, política, jogos), recusa educadamente responder.
-        4. Não inventes dados.
-        5. Sempre que responderes a uma dúvida válida, inclui no final o link correspondente da página oficial do site https://etpc.pt/ que fundamenta essa resposta.
-        
-        CONTEXTO DA ETPC:
-        ${escolaContexto}
-        `;
+        // BASE DE DADOS LOCAL E INTEGRADA DA ETPC
+        const baseConhecimento = {
+            cursos: "Na ETPC (Escola Profissional Tecnológica do Canto) temos os seguintes Cursos Profissionais de Nível 4 (com equivalência ao 12º ano e estágio incluído):\n\n• Técnico de Gestão e Programação de Sistemas Informáticos\n• Técnico de Eletrónica, Automação e Comando\n• Técnico de Restauração (Cozinha/Pastelaria e Bar)\n• Técnico de Multimédia / Design\n\nPodes saber mais em: https://etpc.pt/cursos",
+            contactos: "Podes contactar a ETPC através dos seguintes canais:\n\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal\n\nMais detalhes em: https://etpc.pt/contactos",
+            sobre: "A ETPC (Escola Profissional Tecnológica do Canto) é uma instituição de ensino profissional em Cantanhede focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores.\n\nMais detalhes em: https://etpc.pt/",
+            inscricoes: "As candidaturas estão abertas para alunos com o 9º ano concluído (ou equivalente). A escola disponibiliza apoios como subsídio de transporte, alimentação e bolsa de material escolar.\n\nInscrições em: https://etpc.pt/inscricoes"
+        };
 
         function handleKeyPress(event) {
             if (event.key === 'Enter') sendMessage();
@@ -101,41 +66,42 @@
             appendMessage(question, 'user');
             input.value = '';
 
-            const loadingDiv = appendMessage('A consultar o site da escola...', 'bot');
+            const loadingDiv = appendMessage('A consultar a base de dados da ETPC...', 'bot');
 
-            try {
-                // Chamada direta à API da Google Gemini
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: `${systemInstruction}\n\nPERGUNTA DO UTILIZADOR: ${question}` }]
-                        }]
-                    })
-                });
+            // Pequeno atraso para simular o tempo de resposta da IA
+            setTimeout(() => {
+                const qLower = question.toLowerCase();
+                let reply = "";
 
-                if (!response.ok) {
-                    throw new Error(`Erro na API: ${response.status}`);
+                // Verificação de perguntas fora do âmbito
+                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
+                    reply = "Lamento, mas sou um assistente exclusivo da ETPC e apenas posso responder a questões sobre a escola, cursos e inscrições.";
+                } 
+                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('estudar') || qLower.includes('programação') || qLower.includes('multimédia')) {
+                    reply = baseConhecimento.cursos;
+                } 
+                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('morada') || qLower.includes('onde fica')) {
+                    reply = baseConhecimento.contactos;
+                } 
+                else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('candidatura') || qLower.includes('apoio') || qLower.includes('bolsa')) {
+                    reply = baseConhecimento.inscricoes;
+                } 
+                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre') || qLower.includes('quem somos')) {
+                    reply = baseConhecimento.sobre;
+                } 
+                else {
+                    reply = "Lamento, mas não tenho informação suficiente na base de dados da escola para responder a essa questão. Podes consultar o site oficial em https://etpc.pt/";
                 }
 
-                const data = await response.json();
-                const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Lamento, ocorreu um erro ao processar a resposta.';
-                
-                // Converte links de texto em hiperligações HTML clicáveis
-                const formattedReply = replyText.replace(
+                // Converter URLs em links clicáveis
+                const formattedReply = reply.replace(
                     /(https?:\/\/[^\s]+)/g, 
                     '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-                );
-                
+                ).replace(/\n/g, '<br>');
+
                 loadingDiv.innerHTML = formattedReply;
-
-            } catch (error) {
-                console.error('Erro de Comunicação:', error);
-                loadingDiv.textContent = 'Erro ao contactar a API do Gemini. Verifica a tua ligação ou chave de API.';
-            }
-
-            chatBody.scrollTop = chatBody.scrollHeight;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 600);
         }
 
         function appendMessage(text, sender) {
