@@ -34,21 +34,30 @@
 
     <div class="chat-container">
         <div class="chat-body" id="chatBody">
-            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Como posso ajudar com informações sobre a escola ou os nossos cursos?</div>
+            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Como posso ajudar com informações sobre a escola, cursos, estágios (FCT) ou a PAP?</div>
         </div>
         <div class="chat-footer">
-            <input type="text" id="userInput" placeholder="Escreve a tua pergunta sobre a ETPC..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Pergunta sobre PAP, estágios, cursos ou inscrições..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 
     <script>
-        // BASE DE DADOS LOCAL E INTEGRADA DA ETPC
+        // BASE DE DADOS EXPANDIDA DA ETPC
         const baseConhecimento = {
-            cursos: "Na ETPC (Escola Profissional Tecnológica do Canto) temos os seguintes Cursos Profissionais de Nível 4 (com equivalência ao 12º ano e estágio incluído):\n\n• Técnico de Gestão e Programação de Sistemas Informáticos\n• Técnico de Eletrónica, Automação e Comando\n• Técnico de Restauração (Cozinha/Pastelaria e Bar)\n• Técnico de Multimédia / Design\n\nPodes saber mais em: https://etpc.pt",
-            contactos: "Podes contactar a ETPC através dos seguintes canais:\n\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal\n\nMais detalhes em: https://etpc.pt/contactos",
-            sobre: "A ETPC (Escola Profissional Tecnológica do Canto) é uma instituição de ensino profissional em Cantanhede focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores.\n\nMais detalhes em: https://etpc.pt/",
-            inscricoes: "As candidaturas estão abertas para alunos com o 9º ano concluído (ou equivalente). A escola disponibiliza apoios como subsídio de transporte, alimentação e bolsa de material escolar.\n\nInscrições em: https://etpc.pt/inscricoes"
+            pap: "A **PAP (Prova de Aptidão Profissional)** é um projeto prático individual (ou em equipa) desenvolvido ao longo do 3º ano do curso profissional.\n\n• **Objetivo:** Demonstrar os conhecimentos e competências adquiridos ao longo dos 3 anos.\n• **Avaliação:** Apresentação e defesa do projeto perante um júri (professores, direção e elementos externos/empresas).\n• **Exemplo:** Criação de uma aplicação web, instalação de redes, organização de evento multimédia, etc.\n\nPodes saber mais sobre a estrutura curricular em: https://etpc.pt/cursos",
+
+            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório e prático integrado nos cursos da ETPC:\n\n• **Duração:** Realizado habitualmente no 2º e/ou 3º ano do curso em empresas parceiras da região.\n• **Objetivo:** Contacto direto com o mercado de trabalho real, aplicar competências técnicas e facilitar a futura contratação.\n• **Acompanhamento:** Tens a orientação de um Tutor na empresa e de um Orientador de Estágio na ETPC.\n\nConsulta mais detalhes em: https://etpc.pt/",
+
+            cursos: "Na ETPC (Escola Profissional Tecnológica do Canto, em Cantanhede) temos os seguintes Cursos Profissionais de Nível 4 (com equivalência ao 12º ano + certificação profissional):\n\n• **Técnico de Gestão e Programação de Sistemas Informáticos**\n• **Técnico de Eletrónica, Automação e Comando**\n• **Técnico de Restauração** (Cozinha/Pastelaria e Bar)\n• **Técnico de Multimédia / Design**\n\nTodos os cursos incluem estágio (FCT) e realização de PAP.\nSaiba mais em: https://etpc.pt/cursos",
+
+            apoios: "A ETPC disponibiliza diversos **Apoios Sociais e Financeiros** para os alunos dos cursos profissionais:\n\n• Subsídio de Transporte / Passe escolar\n• Subsídio de Alimentação (ou refeição na cantina)\n• Bolsa de Material de Estudo (consoante o escalão do Ação Social Escolar)\n• Bolsa de Estágio (durante a FCT, quando aplicável)\n\nInscrições e condições em: https://etpc.pt/inscricoes",
+
+            universidade: "Sim! Os alunos que concluem o ensino profissional na ETPC ficam com o 12º ano completo e **podem prosseguir estudos para o Ensino Superior** (Faculdade ou CPTs/TESP):\n\n• Podem realizar os exames nacionais normais OU aderir às **Vias Especializadas de Acesso** criadas para alunos do Ensino Profissional (concursos especiais sem depender exclusivamente dos exames nacionais gerais).\n\nMais sobre a escola em: https://etpc.pt/",
+
+            contactos: "Podes contactar a ETPC através de:\n\n• **Email:** geral@etpc.pt\n• **Localização:** Cantanhede, Portugal\n\nFormulário e detalhes em: https://etpc.pt/contactos",
+
+            sobre: "A ETPC (Escola Profissional Tecnológica do Canto) é uma escola profissional em Cantanhede focada na formação prática de jovens, preparando-os para entrar diretamente no mercado de trabalho ou seguir para a universidade.\n\nMais informações em: https://etpc.pt/"
         };
 
         function handleKeyPress(event) {
@@ -66,42 +75,58 @@
             appendMessage(question, 'user');
             input.value = '';
 
-            const loadingDiv = appendMessage('A consultar a base de dados da ETPC...', 'bot');
+            const loadingDiv = appendMessage('A consultar o assistente...', 'bot');
 
-            // Pequeno atraso para simular o tempo de resposta da IA
             setTimeout(() => {
                 const qLower = question.toLowerCase();
                 let reply = "";
 
-                // Verificação de perguntas fora do âmbito
-                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
-                    reply = "Lamento, mas sou um assistente exclusivo da ETPC e apenas posso responder a questões sobre a escola, cursos e inscrições.";
+                // Filtro de perguntas fora do âmbito
+                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita') || qLower.includes('jogo')) {
+                    reply = "Lamento, mas sou um assistente exclusivo da ETPC e apenas posso responder a questões sobre a escola, cursos, estágios e funcionamento escolar.";
                 } 
-                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('estudar') || qLower.includes('programação') || qLower.includes('multimédia')) {
+                // Perguntas sobre PAP
+                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('projeto final') || qLower.includes('juri') || qLower.includes('júri')) {
+                    reply = baseConhecimento.pap;
+                } 
+                // Perguntas sobre Estágios / FCT
+                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('horas de estágio')) {
+                    reply = baseConhecimento.estagios;
+                } 
+                // Perguntas sobre Cursos
+                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('programação') || qLower.includes('multimédia') || qLower.includes('eletrónica') || qLower.includes('restauração')) {
                     reply = baseConhecimento.cursos;
                 } 
-                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('morada') || qLower.includes('onde fica')) {
+                // Perguntas sobre Acesso à Faculdade / Prossecução de Estudos
+                else if (qLower.includes('faculdade') || qLower.includes('universidade') || qLower.includes('ensino superior') || qLower.includes('exames') || qLower.includes('continuar a estudar')) {
+                    reply = baseConhecimento.universidade;
+                } 
+                // Perguntas sobre Apoios e Bolsas
+                else if (qLower.includes('bolsa') || qLower.includes('subsídio') || qLower.includes('subsidio') || qLower.includes('transporte') || qLower.includes('cantina') || qLower.includes('alimentação') || qLower.includes('pagam')) {
+                    reply = baseConhecimento.apoios;
+                } 
+                // Contactos
+                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('localização')) {
                     reply = baseConhecimento.contactos;
                 } 
-                else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('candidatura') || qLower.includes('apoio') || qLower.includes('bolsa')) {
-                    reply = baseConhecimento.inscricoes;
-                } 
-                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre') || qLower.includes('quem somos')) {
+                // Sobre a escola / Candidaturas
+                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre') || qLower.includes('inscricao') || qLower.includes('inscrição') || qLower.includes('candidatura')) {
                     reply = baseConhecimento.sobre;
                 } 
+                // Resposta padrão caso não reconheça
                 else {
-                    reply = "Lamento, mas não tenho informação suficiente na base de dados da escola para responder a essa questão. Podes consultar o site oficial em https://etpc.pt/";
+                    reply = "Lamento, não encontrei uma resposta exata para essa questão na base de dados da ETPC. Podes perguntar sobre os **cursos**, a **PAP**, os **estágios (FCT)**, **apoios/bolsas** ou consultar o site oficial em https://etpc.pt/";
                 }
 
-                // Converter URLs em links clicáveis
-                const formattedReply = reply.replace(
-                    /(https?:\/\/[^\s]+)/g, 
-                    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-                ).replace(/\n/g, '<br>');
+                // Formatar URLs e quebras de linha para HTML
+                const formattedReply = reply
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+                    .replace(/\n/g, '<br>');
 
                 loadingDiv.innerHTML = formattedReply;
                 chatBody.scrollTop = chatBody.scrollHeight;
-            }, 600);
+            }, 500);
         }
 
         function appendMessage(text, sender) {
