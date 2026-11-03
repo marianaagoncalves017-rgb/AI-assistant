@@ -1,6 +1,6 @@
 <?php
-// Configuração da API do Gemini (Substitui pela tua chave do Google AI Studio)
-define('GEMINI_API_KEY', 'A_TUA_CHAVE_API_AQUI');
+// Substitui a constante pela tua chave de API gerada
+define('GEMINI_API_KEY', 'AQ.Ab8RN6LBjWPLZmydiSBIKwwYQ4i2GdbCopLbx8jZMR4Uj-ukXg');
 
 // Processamento da pergunta via AJAX / POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'chat') {
