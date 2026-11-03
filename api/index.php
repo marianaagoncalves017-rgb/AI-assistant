@@ -45,7 +45,7 @@
     <script>
         // BASE DE DADOS LOCAL E INTEGRADA DA ETPC
         const baseConhecimento = {
-            cursos: "Na ETPC (Escola Profissional Tecnológica do Canto) temos os seguintes Cursos Profissionais de Nível 4 (com equivalência ao 12º ano e estágio incluído):\n\n• Técnico de Gestão e Programação de Sistemas Informáticos\n• Técnico de Eletrónica, Automação e Comando\n• Técnico de Restauração (Cozinha/Pastelaria e Bar)\n• Técnico de Multimédia / Design\n\nPodes saber mais em: https://etpc.pt/cursos",
+            cursos: "Na ETPC (Escola Profissional Tecnológica do Canto) temos os seguintes Cursos Profissionais de Nível 4 (com equivalência ao 12º ano e estágio incluído):\n\n• Técnico de Gestão e Programação de Sistemas Informáticos\n• Técnico de Eletrónica, Automação e Comando\n• Técnico de Restauração (Cozinha/Pastelaria e Bar)\n• Técnico de Multimédia / Design\n\nPodes saber mais em: https://etpc.pt",
             contactos: "Podes contactar a ETPC através dos seguintes canais:\n\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal\n\nMais detalhes em: https://etpc.pt/contactos",
             sobre: "A ETPC (Escola Profissional Tecnológica do Canto) é uma instituição de ensino profissional em Cantanhede focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores.\n\nMais detalhes em: https://etpc.pt/",
             inscricoes: "As candidaturas estão abertas para alunos com o 9º ano concluído (ou equivalente). A escola disponibiliza apoios como subsídio de transporte, alimentação e bolsa de material escolar.\n\nInscrições em: https://etpc.pt/inscricoes"
