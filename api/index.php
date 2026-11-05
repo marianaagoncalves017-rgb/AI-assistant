@@ -204,10 +204,7 @@
                                "8. Técnico/a de Eletrónica e Automação\n" +
                                "9. Técnico/a de Gestão e Administração\n" +
                                "10. Técnico/a de Restauração e Bar\n" +
-                               "11. Técnico/a de Sistemas de Computação e Redes\n\n" +
-                               "**Outras Formações:**\n" +
-                               "• **Cursos CTeSP:** T. Computador e T. Operador de Informática\n" +
-                               "• **Qualificação de Adultos:** Formação Modular Certificada",
+                               "11. Técnico/a de Sistemas de Computação e Redes",
 
             cursos: "A **oferta formativa completa da ETPC** está estruturada nas seguintes vertentes:\n\n" +
                     "**1. Cursos Profissionais (Nível 4 - 12º Ano):**\n" +
@@ -230,7 +227,9 @@
 
             pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação.",
 
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular de formação prática em ambiente real de trabalho junto de empresas parceiras.",
+            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório dos cursos profissionais:\n\n" +
+                      "• **Carga Horária:** Tem uma duração total habitualmente variando entre **400 a 420 horas** distribuídas ao longo do 2º e 3º ano do curso.\n" +
+                      "• **Objetivo:** Formação prática direta em ambiente real numa empresa parceira.",
 
             inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC com apoios sociais disponíveis (transporte, alimentação e bolsas).",
 
@@ -264,32 +263,40 @@
                 const qLower = question.toLowerCase();
                 let reply = "";
 
+                // FILTRO DE CONTEÚDOS FORA DE AMBITO
                 if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
                     reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
                 } 
-                else if (qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) {
-                    reply = baseConhecimento.quantidadeCursos;
-                }
-                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
-                    reply = baseConhecimento.cursos;
-                } 
-                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('juri') || qLower.includes('projeto')) {
-                    reply = baseConhecimento.pap;
-                } 
-                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('trabalho')) {
+                // 1. ESTÁGIOS / FCT (Tem prioridade absoluta se a palavra estagio/fct estiver na pergunta)
+                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
                     reply = baseConhecimento.estagios;
                 } 
+                // 2. PAP (Prioridade absoluta para PAP/projeto)
+                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
+                    reply = baseConhecimento.pap;
+                } 
+                // 3. INSCRIÇÕES / BOLSA
                 else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
                     reply = baseConhecimento.inscricoes;
                 } 
+                // 4. QUANTIDADE DE CURSOS (Apenas entra se disser "quanto" E disser "curso")
+                else if ((qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta'))) {
+                    reply = baseConhecimento.quantidadeCursos;
+                }
+                // 5. LISTA DE CURSOS
+                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
+                    reply = baseConhecimento.cursos;
+                } 
+                // 6. CONTACTOS
                 else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
                     reply = baseConhecimento.contactos;
                 } 
+                // 7. SOBRE
                 else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
                     reply = baseConhecimento.sobre;
                 } 
                 else {
-                    reply = "Não encontrei essa informação específica. Podes perguntar-me sobre a quantidade ou lista de **cursos**, a **PAP**, os estágios (**FCT**), os **apoios sociais** ou os **contactos** da ETPC.";
+                    reply = "Não encontrei essa informação específica. Podes perguntar-me sobre os cursos, a **PAP**, os estágios (**FCT**), as **horas de estágio**, os **apoios sociais** ou os **contactos** da ETPC.";
                 }
 
                 const formattedReply = reply
