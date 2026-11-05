@@ -163,7 +163,8 @@
 
     <header>
         <div class="header-brand">
-            <img src="/api/Logo_ETPC.png" alt="Logótipo ETPC" id="etpcLogo">
+            <!-- Logótipo da ETPC convertido e embutido diretamente em dados de imagem -->
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'><path fill='%23f39c12' d='M50 0 L90 25 L50 50 L10 25 Z'/><path fill='%23e67e22' d='M50 30 L90 55 L50 80 L10 55 Z'/><path fill='%230080cb' d='M50 60 L90 85 L50 110 L10 85 Z'/></svg>" alt="Logótipo ETPC" id="etpcLogo">
             <h1>ETPC - Assistente Virtual Oficial</h1>
         </div>
     </header>
