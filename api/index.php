@@ -105,7 +105,6 @@
             border-bottom-right-radius: 2px;
         }
 
-        /* Animação do indicador de escrita */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -193,34 +192,33 @@
 
     <script>
         const baseConhecimento = {
-            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** disponibiliza Cursos Profissionais de Nível 4 (com equivalência ao 12º ano e certificação profissional). As áreas de formação incluem:\n\n" +
-                    "1. **Técnico de Gestão e Programação de Sistemas Informáticos:** Foco no desenvolvimento de software, aplicações web, bases de dados e redes de computadores.\n" +
-                    "2. **Técnico de Eletrónica, Automação e Comando:** Aprendizagem em sistemas automatizados, robótica industrial, circuitos eletrónicos e domótica.\n" +
-                    "3. **Técnico de Restauração (Cozinha/Pastelaria e Bar):** Preparação prática na área da restauração, confeção culinária e serviço de mesa/bar.\n" +
-                    "4. **Técnico de Multimédia / Design:** Design gráfico, edição de vídeo/áudio, modelação 3D e desenvolvimento para web.\n" +
-                    "5. **Outras Áreas Formativas:** A escola disponibiliza também oferta nas áreas de Administração, Marketing, Desporto, Saúde e Segurança.\n\n" +
-                    "Todos os cursos têm a duração de 3 anos e incluem componente prática em contexto de trabalho (estágio FCT) e a Prova de Aptidão Profissional (PAP).",
+            quantidadeCursos: "A ETPC disponibiliza **8 áreas de formação profissional principais**:\n\n1. Informática\n2. Eletrónica e Automação\n3. Restauração (Cozinha/Pastelaria e Bar)\n4. Desporto\n5. Marketing\n6. Administração\n7. Saúde e Bem-Estar\n8. Segurança\n\nSe quiseres saber detalhes de algum curso em específico, basta perguntar!",
 
-            pap: "A **PAP (Prova de Aptidão Profissional)** é um projeto prático individual (ou em pequena equipa) desenvolvido ao longo do 3º ano do curso:\n\n" +
-                 "• **Objetivo:** Aplicar de forma autónoma as competências técnicas adquiridas durante a formação.\n" +
-                 "• **Componentes:** Elaboração do projeto, redação de um relatório detalhado e a apresentação pública.\n" +
-                 "• **Avaliação:** Defesa do projeto perante um júri constituído pela direção da escola, professores e elementos externos/empresários do setor.",
+            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** disponibiliza Cursos Profissionais de Nível 4 (equivalente ao 12º ano) nas seguintes áreas:\n\n" +
+                    "1. **Técnico de Gestão e Programação de Sistemas Informáticos:** Desenvolvimento de software, web e redes.\n" +
+                    "2. **Técnico de Eletrónica, Automação e Comando:** Sistemas automatizados, robótica e circuitos.\n" +
+                    "3. **Técnico de Restauração (Cozinha/Pastelaria e Bar):** Confeção culinária e serviço de mesa/bar.\n" +
+                    "4. **Desporto:** Organização e acompanhamento de atividades físicas e desportivas.\n" +
+                    "5. **Marketing:** Comunicação, estratégia digital e vendas.\n" +
+                    "6. **Administração:** Gestão documental, financeira e administrativa.\n" +
+                    "7. **Saúde e Bem-Estar:** Cuidados auxiliares e apoio de saúde.\n" +
+                    "8. **Segurança:** Proteção de bens e pessoas e sistemas de segurança.\n\n" +
+                    "Todos os cursos duram 3 anos e incluem estágio (FCT) e a Prova de Aptidão Profissional (PAP).",
+
+            pap: "A **PAP (Prova de Aptidão Profissional)** é um projeto prático individual (ou em pequena equipa) desenvolvido no 3º ano:\n\n" +
+                 "• **Objetivo:** Aplicar as competências técnicas adquiridas durante o curso.\n" +
+                 "• **Componentes:** Projeto prático, relatório e apresentação perante um júri de avaliação.",
 
             estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório em empresas parceiras:\n\n" +
-                      "• **Duração:** Realizada ao longo do curso (habitualmente no 2º e 3º anos).\n" +
-                      "• **Objetivo:** Vivenciar o ambiente real de trabalho, adquirir hábitos profissionais e criar contactos com o tecido empresarial.\n" +
-                      "• **Acompanhamento:** Cada aluno tem a orientação de um Tutor na empresa e de um Orientador de Estágio na ETPC.",
+                      "• Permite vivenciar o ambiente real de trabalho e criar contactos com o mercado empresarial.\n" +
+                      "• Conta com orientação de um Tutor na empresa e de um Orientador na ETPC.",
 
-            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** para alunos com o 9º ano completo:\n\n" +
-                        "• **Apoios Disponíveis:** Subsídio de transporte / passe escolar, subsídio de alimentação (ou refeição gratuita na cantina), bolsa de material de estudo (consoante o escalão) e bolsa de estágio na FCT.\n" +
-                        "• **Processo:** Podes realizar a pré-inscrição junto dos serviços administrativos da escola ou submeter a candidatura diretamente.",
+            inscricoes: "As **Inscrições para 2026/2027 estão Abertas** para alunos com o 9º ano completo:\n\n" +
+                        "• **Apoios Disponíveis:** Subsídio de transporte, alimentação, bolsa de material de estudo e bolsa de estágio.",
 
-            contactos: "Contactos Oficiais da **ETPC (Escola Técnico Profissional de Cantanhede)**:\n\n" +
-                       "• **Morada:** Cantanhede, Portugal\n" +
-                       "• **Email:** geral@etpc.pt\n" +
-                       "• **Atendimento:** De Segunda a Sexta-feira, no horário de funcionamento dos serviços administrativos.",
+            contactos: "Contactos da **ETPC**:\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal",
 
-            sobre: "A **ETPC (Escola Técnico Profissional de Cantanhede)** é uma instituição focada no ensino profissional de excelência, aproximando os alunos do mercado de trabalho e preparando-os também para a prossecução de estudos no Ensino Superior."
+            sobre: "A **ETPC** é uma escola de ensino profissional de referência em Cantanhede, focada no mercado de trabalho e no acesso ao Ensino Superior."
         };
 
         function handleKeyPress(event) {
@@ -238,22 +236,25 @@
             appendMessage(question, 'user');
             input.value = '';
 
-            // Mostra o indicador visual de que a IA está a "pensar"
             const typingDiv = appendMessage(
                 '<div class="typing-indicator"><span></span><span></span><span></span></div>', 
                 'bot', 
                 true
             );
 
-            // Simula um tempo de reflexão de 1.2 segundos (1200ms)
             setTimeout(() => {
                 const qLower = question.toLowerCase();
                 let reply = "";
 
                 if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
-                    reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, os cursos, os estágios e procedimentos escolares.";
+                    reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
                 } 
-                else if (qLower.includes('curso') || qLower.includes('exist') || qLower.includes('ha') || qLower.includes('há') || qLower.includes('oferta') || qLower.includes('quais')) {
+                // PERGUNTAS SOBRE QUANTIDADE / NÚMERO DE CURSOS
+                else if ((qLower.includes('quanto') || qLower.includes('numero') || qLower.includes('número') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('opcao') || qLower.includes('opção') || qLower.includes('opcoes') || qLower.includes('opções'))) {
+                    reply = baseConhecimento.quantidadeCursos;
+                }
+                // PERGUNTAS SOBRE A LISTA DE CURSOS
+                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
                     reply = baseConhecimento.cursos;
                 } 
                 else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('juri') || qLower.includes('projeto')) {
@@ -265,24 +266,23 @@
                 else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
                     reply = baseConhecimento.inscricoes;
                 } 
-                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('cantanhede')) {
+                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
                     reply = baseConhecimento.contactos;
                 } 
                 else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
                     reply = baseConhecimento.sobre;
                 } 
                 else {
-                    reply = "Não encontrei essa informação específica. Podes perguntar-me detalhadamente sobre a lista de **cursos**, a realização da **PAP**, os estágios em empresa (**FCT**), os **apoios sociais** ou os **contactos** da ETPC.";
+                    reply = "Não encontrei essa informação específica. Podes perguntar-me sobre a quantidade ou lista de **cursos**, a **PAP**, os estágios (**FCT**), os **apoios sociais** ou os **contactos** da ETPC.";
                 }
 
                 const formattedReply = reply
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1$2</strong>')
                     .replace(/\n/g, '<br>');
 
-                // Substitui a animação dos pontos pelo texto da resposta final
                 typingDiv.innerHTML = formattedReply;
                 chatBody.scrollTop = chatBody.scrollHeight;
-            }, 1200);
+            }, 1000);
         }
 
         function appendMessage(text, sender, isHTML = false) {
