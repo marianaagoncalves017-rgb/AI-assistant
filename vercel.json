@@ -6,6 +6,10 @@
   },
   "routes": [
     {
+      "src": "/api/Logo_ETPC.png",
+      "dest": "/api/Logo_ETPC.png"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
