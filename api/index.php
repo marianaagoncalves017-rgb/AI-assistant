@@ -105,12 +105,6 @@
             border-bottom-right-radius: 2px;
         }
 
-        .message a { 
-            color: #0080cb; 
-            font-weight: bold; 
-            word-break: break-all; 
-        }
-
         .chat-footer { 
             display: flex; 
             gap: 0.5rem; 
@@ -159,12 +153,12 @@
 
     <div class="hero-banner">
         <h2>Inscrições Abertas 2026/2027</h2>
-        <p>O teu Sucesso começa Aqui! Respostas rápidas com dados oficiais da escola.</p>
+        <p>O teu Sucesso começa Aqui! Pergunta-me sobre a oferta formativa, PAP ou FCT.</p>
     </div>
 
     <div class="chat-container">
         <div class="chat-body" id="chatBody">
-            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Em que posso ajudar relativamente aos nossos cursos, estágios ou funcionamento da escola?</div>
+            <div class="message bot">Olá! Sou o assistente virtual da ETPC. Como posso ajudar com informações sobre a escola, os cursos profissionais, o estágio (FCT) ou a PAP?</div>
         </div>
         <div class="chat-footer">
             <input type="text" id="userInput" placeholder="Escreve aqui a tua pergunta..." onkeypress="handleKeyPress(event)">
@@ -174,12 +168,34 @@
 
     <script>
         const baseConhecimento = {
-            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** dispõe dos seguintes cursos profissionais de Nível 4 (com equivalência ao 12º ano):\n\n• **Técnico de Gestão e Programação de Sistemas Informáticos**\n• **Técnico de Eletrónica, Automação e Comando**\n• **Técnico de Restauração** (Cozinha/Pastelaria e Bar)\n• **Áreas de Administração, Marketing, Desporto, Saúde e Segurança**\n\nTodos os cursos integram estágio (FCT) e a elaboração da PAP.\nMais informações: https://etpc.pt/cursos",
-            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final elaborado no 3º ano do curso profissional:\n\n• **Em que consiste:** Apresentação e defesa de um projeto prático desenvolvido pelo aluno perante um júri de avaliação.\n• **Objetivo:** Demonstrar a aplicação das competências técnicas adquiridas ao longo do curso.\n\nMais detalhes em: https://etpc.pt/",
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório da ETPC:\n\n• Realizado em empresas parceiras da região para proporcionar contacto real com o mercado de trabalho.\n\nSaiba mais em: https://etpc.pt/cte",
-            inscricoes: "As **Inscrições para 2026/2027 estão abertas** na ETPC para alunos com o 9º ano concluído. A escola faculta apoios como transporte, cantina e bolsas escolar.\n\nInscrições em: https://etpc.pt/inscricoes",
-            contactos: "Contactos da ETPC:\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal\n\nDetalhes completos em: https://etpc.pt/contactos",
-            sobre: "A ETPC é uma instituição de ensino profissional em Cantanhede focada na preparação prática de alunos para o mercado de trabalho e universidade.\n\nWebsite: https://etpc.pt/"
+            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** disponibiliza Cursos Profissionais de Nível 4 (com equivalência ao 12º ano e certificação profissional). As áreas de formação incluem:\n\n" +
+                    "1. **Técnico de Gestão e Programação de Sistemas Informáticos:** Foco no desenvolvimento de software, aplicações web, bases de dados e redes de computadores.\n" +
+                    "2. **Técnico de Eletrónica, Automação e Comando:** Aprendizagem em sistemas automatizados, robótica industrial, circuitos eletrónicos e domótica.\n" +
+                    "3. **Técnico de Restauração (Cozinha/Pastelaria e Bar):** Preparação prática na área da restauração, confeção culinária e serviço de mesa/bar.\n" +
+                    "4. **Técnico de Multimédia / Design:** Design gráfico, edição de vídeo/áudio, modelação 3D e desenvolvimento para web.\n" +
+                    "5. **Outras Áreas Formativas:** A escola disponibiliza também oferta nas áreas de Administração, Marketing, Desporto, Saúde e Segurança.\n\n" +
+                    "Todos os cursos têm a duração de 3 anos e incluem componente prática em contexto de trabalho (estágio FCT) e a Prova de Aptidão Profissional (PAP).",
+
+            pap: "A **PAP (Prova de Aptidão Profissional)** é um projeto prático individual (ou em pequena equipa) desenvolvido ao longo do 3º ano do curso:\n\n" +
+                 "• **Objetivo:** Aplicar de forma autónoma as competências técnicas adquiridas durante a formação.\n" +
+                 "• **Componentes:** Elaboração do projeto, redação de um relatório detalhado e a apresentação pública.\n" +
+                 "• **Avaliação:** Defesa do projeto perante um júri constituído pela direção da escola, professores e elementos externos/empresários do setor.",
+
+            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório em empresas parceiras:\n\n" +
+                      "• **Duração:** Realizada ao longo do curso (habitualmente no 2º e 3º anos).\n" +
+                      "• **Objetivo:** Vivenciar o ambiente real de trabalho, adquirir hábitos profissionais e criar contactos com o tecido empresarial.\n" +
+                      "• **Acompanhamento:** Cada aluno tem a orientação de um Tutor na empresa e de um Orientador de Estágio na ETPC.",
+
+            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** para alunos com o 9º ano completo:\n\n" +
+                        "• **Apoios Disponíveis:** Subsídio de transporte / passe escolar, subsídio de alimentação (ou refeição gratuita na cantina), bolsa de material de estudo (consoante o escalão) e bolsa de estágio na FCT.\n" +
+                        "• **Processo:** Podes realizar a pré-inscrição junto dos serviços administrativos da escola ou submeter a candidatura diretamente.",
+
+            contactos: "Contactos Oficiais da **ETPC (Escola Técnico Profissional de Cantanhede)**:\n\n" +
+                       "• **Morada:** Cantanhede, Portugal\n" +
+                       "• **Email:** geral@etpc.pt\n" +
+                       "• **Atendimento:** De Segunda a Sexta-feira, no horário de funcionamento dos serviços administrativos.",
+
+            sobre: "A **ETPC (Escola Técnico Profissional de Cantanhede)** é uma instituição focada no ensino profissional de excelência, aproximando os alunos do mercado de trabalho e preparando-os também para a prossecução de estudos no Ensino Superior."
         };
 
         function handleKeyPress(event) {
@@ -201,33 +217,32 @@
             let reply = "";
 
             if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
-                reply = "Lamento, mas apenas respondo a assuntos relacionados com a ETPC, cursos e funcionamento escolar.";
+                reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, os cursos, os estágios e procedimentos escolares.";
             } 
             else if (qLower.includes('curso') || qLower.includes('exist') || qLower.includes('ha') || qLower.includes('há') || qLower.includes('oferta') || qLower.includes('quais')) {
                 reply = baseConhecimento.cursos;
             } 
-            else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('juri')) {
+            else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('juri') || qLower.includes('projeto')) {
                 reply = baseConhecimento.pap;
             } 
-            else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa')) {
+            else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('trabalho')) {
                 reply = baseConhecimento.estagios;
             } 
-            else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura')) {
+            else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
                 reply = baseConhecimento.inscricoes;
             } 
-            else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
+            else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('cantanhede')) {
                 reply = baseConhecimento.contactos;
             } 
             else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
                 reply = baseConhecimento.sobre;
             } 
             else {
-                reply = "Podes consultar toda a informação detalhada sobre esse tema diretamente no site oficial da escola: https://etpc.pt/";
+                reply = "Não encontrei essa informação específica. Podes perguntar-me detalhadamente sobre a lista de **cursos**, a realização da **PAP**, os estágios em empresa (**FCT**), os **apoios sociais** ou os **contactos** da ETPC.";
             }
 
             const formattedReply = reply
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
                 .replace(/\n/g, '<br>');
 
             appendMessage(formattedReply, 'bot', true);
