@@ -8,14 +8,27 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         
         body { 
-            background-color: #f4f6f9; 
+            background-color: #f4f7f9; 
             color: #2c3e50; 
             height: 100vh; 
             display: flex; 
             flex-direction: column; 
         }
         
-        /* Header com as cores oficiais da ETPC */
+        /* Top Header ao estilo do site etpc.pt */
+        .top-bar {
+            background: #005689;
+            color: white;
+            padding: 5px 2rem;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .top-bar a { color: white; text-decoration: none; font-weight: 600; }
+
+        /* Header Principal */
         header { 
             background: #ffffff; 
             padding: 0.8rem 2rem; 
@@ -23,26 +36,38 @@
             display: flex; 
             align-items: center; 
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
         }
 
         .header-brand img {
-            height: 45px;
+            height: 50px;
             width: auto;
         }
         
         header h1 { 
-            font-size: 1.2rem; 
-            color: #005580; 
+            font-size: 1.15rem; 
+            color: #0080cb; 
             font-weight: 700;
         }
         
+        /* Faixa Azul Principal (Banner) */
+        .hero-banner {
+            background: linear-gradient(135deg, #0080cb, #005689);
+            color: white;
+            padding: 1.2rem 2rem;
+            text-align: center;
+        }
+
+        .hero-banner h2 { font-size: 1.3rem; margin-bottom: 4px; }
+        .hero-banner p { font-size: 0.9rem; opacity: 0.9; }
+
+        /* Contentor do Chat */
         .chat-container { 
             flex: 1; 
             max-width: 850px; 
@@ -50,7 +75,7 @@
             margin: 0 auto; 
             display: flex; 
             flex-direction: column; 
-            height: calc(100vh - 70px); 
+            height: calc(100vh - 150px); 
             padding: 1rem; 
         }
 
@@ -77,18 +102,18 @@
             background: #ffffff; 
             color: #2c3e50; 
             align-self: flex-start; 
-            border-left: 4px solid #e67e22;
+            border-left: 5px solid #0080cb;
         }
 
         .message.user { 
-            background: #0088cc; 
+            background: #0080cb; 
             color: white; 
             align-self: flex-end; 
             border-bottom-right-radius: 2px;
         }
 
         .message a { 
-            color: #0088cc; 
+            color: #0080cb; 
             font-weight: bold; 
             word-break: break-all; 
         }
@@ -107,7 +132,7 @@
         .chat-footer input { 
             flex: 1; 
             background: #ffffff; 
-            border: 2px solid #0088cc; 
+            border: 2px solid #0080cb; 
             color: #2c3e50; 
             padding: 0.8rem 1.2rem; 
             border-radius: 25px; 
@@ -127,50 +152,57 @@
             padding: 0.8rem 1.8rem; 
             font-weight: bold; 
             cursor: pointer; 
-            transition: opacity 0.2s;
+            transition: transform 0.1s;
         }
 
         .chat-footer button:hover { 
-            opacity: 0.9; 
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
 
+    <div class="top-bar">
+        <span>E-COMMUNITY</span>
+        <span>RECRUTAMENTO</span>
+    </div>
+
     <header>
         <div class="header-brand">
-            <!-- Caminho relativo para a imagem do logótipo guardada na pasta public ou raiz -->
-            <img src="/Logo_ETPC.png" alt="Logótipo ETPC" onerror="this.style.display='none'">
-            <h1>ETPC - Assistente Virtual Inteligente</h1>
+            <img src="/Logo_ETPC.png" alt="ETPC Logo" onerror="this.style.display='none'">
+            <h1>ETPC - Assistente Virtual Oficial</h1>
         </div>
     </header>
 
+    <div class="hero-banner">
+        <h2>Inscrições Abertas 2026/2027</h2>
+        <p>O teu Sucesso começa Aqui! Pergunta-me sobre os cursos, a PAP ou a FCT.</p>
+    </div>
+
     <div class="chat-container">
         <div class="chat-body" id="chatBody">
-            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Como posso ajudar com informações sobre a escola, cursos, estágios (FCT) ou a PAP?</div>
+            <div class="message bot">Olá! Sou o assistente oficial da ETPC (Escola Técnico Profissional de Cantanhede). Em que posso ajudar relativamente aos nossos cursos, estágios ou funcionamento da escola?</div>
         </div>
         <div class="chat-footer">
-            <input type="text" id="userInput" placeholder="Pergunta sobre PAP, estágios, cursos ou inscrições..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Escreve aqui a tua pergunta..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 
     <script>
-        // BASE DE DADOS EXPANDIDA DA ETPC
+        // BASE DE DADOS BASEADA NO SITE REAL DA ETPC
         const baseConhecimento = {
-            pap: "A **PAP (Prova de Aptidão Profissional)** é um projeto prático individual (ou em equipa) desenvolvido ao longo do 3º ano do curso profissional.\n\n• **Objetivo:** Demonstrar os conhecimentos e competências adquiridos ao longo dos 3 anos.\n• **Avaliação:** Apresentação e defesa do projeto perante um júri (professores, direção e elementos externos/empresas).\n• **Exemplo:** Criação de uma aplicação web, instalação de redes, organização de evento multimédia, etc.\n\nPodes saber mais sobre a estrutura curricular em: https://etpc.pt/cursos",
+            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** oferece cursos profissionais de Nível 4 (com equivalência ao 12º ano) nas seguintes áreas de formação:\n\n• **Informática** (Técnico de Gestão e Programação de Sistemas Informáticos)\n• **Automação** (Técnico de Eletrónica, Automação e Comando)\n• **Restauração** (Cozinha/Pastelaria e Bar)\n• **Administração**\n• **Marketing**\n• **Desporto**\n• **Saúde e Bem-Estar**\n• **Segurança**\n\nTodos os cursos incluem **FCT (Estágio)** e a realização da **PAP**.\nConsulte a oferta em: https://etpc.pt/cursos",
 
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório e prático integrado nos cursos da ETPC:\n\n• **Duração:** Realizado habitualmente no 2º e/ou 3º ano do curso em empresas parceiras da região.\n• **Objetivo:** Contacto direto com o mercado de trabalho real, aplicar competências técnicas e facilitar a futura contratação.\n• **Acompanhamento:** Tens a orientação de um Tutor na empresa e de um Orientador de Estágio na ETPC.\n\nConsulta mais detalhes em: https://etpc.pt/",
+            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final realizado pelos alunos do 3º ano da ETPC.\n\n• **Em que consiste:** É a criação de um projeto prático e a sua apresentação perante um júri de avaliação (professores, direção e representantes de empresas parceiras).\n• **Objetivo:** Demonstrar a autonomia e todas as competências técnicas desenvolvidas nos 3 anos de curso.\n\nMais sobre os projetos da escola em: https://etpc.pt/",
 
-            cursos: "Na ETPC (Escola Profissional Tecnológica do Canto, em Cantanhede) temos os seguintes Cursos Profissionais de Nível 4 (com equivalência ao 12º ano + certificação profissional):\n\n• **Técnico de Gestão e Programação de Sistemas Informáticos**\n• **Técnico de Eletrónica, Automação e Comando**\n• **Técnico de Restauração** (Cozinha/Pastelaria e Bar)\n• **Técnico de Multimédia / Design**\n\nTodos os cursos incluem estágio (FCT) e realização de PAP.\nSaiba mais em: https://etpc.pt/cursos",
+            estagios: "A **FCT (Formação em Contexto de Trabalho)** representa a componente prática de estágio na ETPC:\n\n• **Funcionamento:** Os alunos realizam o estágio em empresas da região parceiras da escola para aplicarem os conhecimentos aprendidos nas aulas.\n• **Vantagem:** Permite aos alunos ganhar experiência profissional real e ter a oportunidade de conseguir contrato de trabalho após o curso.\n\nMais informações em: https://etpc.pt/cte",
 
-            apoios: "A ETPC disponibiliza diversos **Apoios Sociais e Financeiros** para os alunos dos cursos profissionais:\n\n• Subsídio de Transporte / Passe escolar\n• Subsídio de Alimentação (ou refeição na cantina)\n• Bolsa de Material de Estudo (consoante o escalão do Ação Social Escolar)\n• Bolsa de Estágio (durante a FCT, quando aplicável)\n\nInscrições e condições em: https://etpc.pt/inscricoes",
+            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC para alunos com o 9º ano completo!\n\n• A escola oferece apoios sociais (subsídio de transporte, alimentação e apoio escolar de acordo com as condições aplicáveis).\n\nGarante a tua vaga em: https://etpc.pt/inscricoes",
 
-            universidade: "Sim! Os alunos que concluem o ensino profissional na ETPC ficam com o 12º ano completo e **podem prosseguir estudos para o Ensino Superior** (Faculdade ou CPTs/TESP):\n\n• Podem realizar os exames nacionais normais OU aderir às **Vias Especializadas de Acesso** criadas para alunos do Ensino Profissional.\n\nMais sobre a escola em: https://etpc.pt/",
+            contactos: "Contactos da ETPC - Escola Técnico Profissional de Cantanhede:\n\n• **Localização:** Cantanhede, Portugal\n• **Email:** geral@etpc.pt\n\nVisualiza os contactos completos em: https://etpc.pt/contactos",
 
-            contactos: "Podes contactar a ETPC através de:\n\n• **Email:** geral@etpc.pt\n• **Localização:** Cantanhede, Portugal\n\nFormulário e detalhes em: https://etpc.pt/contactos",
-
-            sobre: "A ETPC (Escola Profissional Tecnológica do Canto) é uma escola profissional em Cantanhede focada na formação prática de jovens, preparando-os para entrar diretamente no mercado de trabalho ou seguir para a universidade.\n\nMais informações em: https://etpc.pt/"
+            sobre: "A ETPC (Escola Técnico Profissional de Cantanhede) é uma instituição de referência na formação profissional, focada na ligação prática com o tecido empresarial e na preparação para o mercado de trabalho e universidade.\n\nMais informações em: https://etpc.pt/"
         };
 
         function handleKeyPress(event) {
@@ -194,32 +226,29 @@
                 const qLower = question.toLowerCase();
                 let reply = "";
 
-                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita') || qLower.includes('jogo')) {
-                    reply = "Lamento, mas sou um assistente exclusivo da ETPC e apenas posso responder a questões sobre a escola, cursos, estágios e funcionamento escolar.";
+                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
+                    reply = "Lamento, mas sou o assistente oficial da ETPC e apenas respondo a questões relacionadas com a escola, oferta formativa, estágios e procedimentos escolares.";
                 } 
-                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('projeto final') || qLower.includes('juri') || qLower.includes('júri')) {
+                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('projeto') || qLower.includes('juri')) {
                     reply = baseConhecimento.pap;
                 } 
-                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('horas de estágio')) {
+                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('trabalho')) {
                     reply = baseConhecimento.estagios;
                 } 
-                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('programação') || qLower.includes('multimédia') || qLower.includes('eletrónica') || qLower.includes('restauração')) {
+                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('informática') || qLower.includes('informatica') || qLower.includes('automação') || qLower.includes('restauração') || qLower.includes('desporto') || qLower.includes('marketing') || qLower.includes('saúde') || qLower.includes('segurança')) {
                     reply = baseConhecimento.cursos;
                 } 
-                else if (qLower.includes('faculdade') || qLower.includes('universidade') || qLower.includes('ensino superior') || qLower.includes('exames') || qLower.includes('continuar a estudar')) {
-                    reply = baseConhecimento.universidade;
+                else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('ano letivo') || qLower.includes('candidatura')) {
+                    reply = baseConhecimento.inscricoes;
                 } 
-                else if (qLower.includes('bolsa') || qLower.includes('subsídio') || qLower.includes('subsidio') || qLower.includes('transporte') || qLower.includes('cantina') || qLower.includes('alimentação') || qLower.includes('pagam')) {
-                    reply = baseConhecimento.apoios;
-                } 
-                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('localização')) {
+                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('onde fica') || qLower.includes('cantanhede')) {
                     reply = baseConhecimento.contactos;
                 } 
-                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre') || qLower.includes('inscricao') || qLower.includes('inscrição') || qLower.includes('candidatura')) {
+                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
                     reply = baseConhecimento.sobre;
                 } 
                 else {
-                    reply = "Lamento, não encontrei uma resposta exata para essa questão na base de dados da ETPC. Podes perguntar sobre os **cursos**, a **PAP**, os **estágios (FCT)**, **apoios/bolsas** ou consultar o site oficial em https://etpc.pt/";
+                    reply = "Lamento, não encontrei essa informação na base de dados da ETPC. Podes perguntar-me sobre os **cursos**, as **inscrições**, a **PAP**, a **FCT (estágios)** ou aceder ao site em https://etpc.pt/";
                 }
 
                 const formattedReply = reply
