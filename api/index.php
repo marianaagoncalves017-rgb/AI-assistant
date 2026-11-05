@@ -163,7 +163,7 @@
 
     <header>
         <div class="header-brand">
-            <img src="/api/Logo_ETPC.png" alt="Logótipo ETPC" id="etpcLogo">
+            <img src="/Logo_ETPC.png" alt="Logótipo ETPC" id="etpcLogo">
             <h1>ETPC - Assistente Virtual Oficial</h1>
         </div>
     </header>
