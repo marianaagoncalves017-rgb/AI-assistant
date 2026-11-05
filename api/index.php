@@ -192,18 +192,41 @@
 
     <script>
         const baseConhecimento = {
-            quantidadeCursos: "A ETPC disponibiliza **8 cursos profissionais** principais:\n\n1. **Técnico de Gestão e Programação de Sistemas Informáticos**\n2. **Técnico de Eletrónica, Automação e Comando**\n3. **Técnico de Cozinha / Pastelaria**\n4. **Técnico de Serviço de Restauração e Bar**\n5. **Técnico de Apoio à Gestão / Administração**\n6. **Técnico de Marketing e Comunicação**\n7. **Técnico de Desporto**\n8. **Técnico Auxiliar de Saúde**\n\nTodos concedem equivalência ao 12º ano (Nível 4) e incluem estágio em empresa (FCT)!",
+            quantidadeCursos: "A ETPC disponibiliza **11 Cursos Profissionais de Nível 4** (com equivalência ao 12º ano), além de opções CTeSP e Formação para Adultos:\n\n" +
+                               "**Cursos Profissionais (11 opções):**\n" +
+                               "1. Cabeleireiro/a\n" +
+                               "2. Esteticista\n" +
+                               "3. Técnico/a de Apoio à Intervenção Social\n" +
+                               "4. Técnico/a de Comunicação - Assessoria, Relações Públicas e Publicidade\n" +
+                               "5. Técnico/a de Cozinha e Pastelaria\n" +
+                               "6. Técnico/a de Desporto\n" +
+                               "7. Técnico/a de Eletrónica Automóvel\n" +
+                               "8. Técnico/a de Eletrónica e Automação\n" +
+                               "9. Técnico/a de Gestão e Administração\n" +
+                               "10. Técnico/a de Restauração e Bar\n" +
+                               "11. Técnico/a de Sistemas de Computação e Redes\n\n" +
+                               "**Outras Formações:**\n" +
+                               "• **Cursos CTeSP:** T. Computador e T. Operador de Informática\n" +
+                               "• **Qualificação de Adultos:** Formação Modular Certificada",
 
-            cursos: "Os **8 cursos profissionais** oferecidos na ETPC (com equivalência ao 12º ano) são:\n\n" +
-                    "1. **Técnico de Gestão e Programação de Sistemas Informáticos**\n" +
-                    "2. **Técnico de Eletrónica, Automação e Comando**\n" +
-                    "3. **Técnico de Cozinha / Pastelaria**\n" +
-                    "4. **Técnico de Serviço de Restauração e Bar**\n" +
-                    "5. **Técnico de Apoio à Gestão / Administração**\n" +
-                    "6. **Técnico de Marketing e Comunicação**\n" +
-                    "7. **Técnico de Desporto**\n" +
-                    "8. **Técnico Auxiliar de Saúde**\n\n" +
-                    "Todos os cursos têm a duração de 3 anos e incluem estágio (FCT) e a Prova de Aptidão Profissional (PAP).",
+            cursos: "A **oferta formativa completa da ETPC** está estruturada nas seguintes vertentes:\n\n" +
+                    "**1. Cursos Profissionais (Nível 4 - 12º Ano):**\n" +
+                    "• Cabeleireiro/a\n" +
+                    "• Esteticista\n" +
+                    "• Técnico/a de Apoio à Intervenção Social\n" +
+                    "• Técnico/a de Comunicação - Assessoria, Relações Públicas e Publicidade\n" +
+                    "• Técnico/a de Cozinha e Pastelaria\n" +
+                    "• Técnico/a de Desporto\n" +
+                    "• Técnico/a de Eletrónica Automóvel\n" +
+                    "• Técnico/a de Eletrónica e Automação\n" +
+                    "• Técnico/a de Gestão e Administração\n" +
+                    "• Técnico/a de Restauração e Bar\n" +
+                    "• Técnico/a de Sistemas de Computação e Redes\n\n" +
+                    "**2. Cursos CTeSP:**\n" +
+                    "• CDT T. Computador\n" +
+                    "• CDT T. Operador de Informática\n\n" +
+                    "**3. Qualificação de Adultos:**\n" +
+                    "• Formação Modular Certificada",
 
             pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação.",
 
@@ -244,8 +267,7 @@
                 if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
                     reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
                 } 
-                // DETEÇÃO DIRETA DE PERGUNTAS SOBRE QUANTIDADE/NÚMERO
-                else if (qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total de cursos')) {
+                else if (qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) {
                     reply = baseConhecimento.quantidadeCursos;
                 }
                 else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
