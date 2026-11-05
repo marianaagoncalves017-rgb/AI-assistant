@@ -105,6 +105,31 @@
             border-bottom-right-radius: 2px;
         }
 
+        /* Animação do indicador de escrita */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.4rem 0.2rem;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #0080cb;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
         .chat-footer { 
             display: flex; 
             gap: 0.5rem; 
@@ -213,39 +238,51 @@
             appendMessage(question, 'user');
             input.value = '';
 
-            const qLower = question.toLowerCase();
-            let reply = "";
+            // Mostra o indicador visual de que a IA está a "pensar"
+            const typingDiv = appendMessage(
+                '<div class="typing-indicator"><span></span><span></span><span></span></div>', 
+                'bot', 
+                true
+            );
 
-            if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
-                reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, os cursos, os estágios e procedimentos escolares.";
-            } 
-            else if (qLower.includes('curso') || qLower.includes('exist') || qLower.includes('ha') || qLower.includes('há') || qLower.includes('oferta') || qLower.includes('quais')) {
-                reply = baseConhecimento.cursos;
-            } 
-            else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('juri') || qLower.includes('projeto')) {
-                reply = baseConhecimento.pap;
-            } 
-            else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('trabalho')) {
-                reply = baseConhecimento.estagios;
-            } 
-            else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
-                reply = baseConhecimento.inscricoes;
-            } 
-            else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('cantanhede')) {
-                reply = baseConhecimento.contactos;
-            } 
-            else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
-                reply = baseConhecimento.sobre;
-            } 
-            else {
-                reply = "Não encontrei essa informação específica. Podes perguntar-me detalhadamente sobre a lista de **cursos**, a realização da **PAP**, os estágios em empresa (**FCT**), os **apoios sociais** ou os **contactos** da ETPC.";
-            }
+            // Simula um tempo de reflexão de 1.2 segundos (1200ms)
+            setTimeout(() => {
+                const qLower = question.toLowerCase();
+                let reply = "";
 
-            const formattedReply = reply
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>');
+                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
+                    reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, os cursos, os estágios e procedimentos escolares.";
+                } 
+                else if (qLower.includes('curso') || qLower.includes('exist') || qLower.includes('ha') || qLower.includes('há') || qLower.includes('oferta') || qLower.includes('quais')) {
+                    reply = baseConhecimento.cursos;
+                } 
+                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('juri') || qLower.includes('projeto')) {
+                    reply = baseConhecimento.pap;
+                } 
+                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('trabalho')) {
+                    reply = baseConhecimento.estagios;
+                } 
+                else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
+                    reply = baseConhecimento.inscricoes;
+                } 
+                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('cantanhede')) {
+                    reply = baseConhecimento.contactos;
+                } 
+                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
+                    reply = baseConhecimento.sobre;
+                } 
+                else {
+                    reply = "Não encontrei essa informação específica. Podes perguntar-me detalhadamente sobre a lista de **cursos**, a realização da **PAP**, os estágios em empresa (**FCT**), os **apoios sociais** ou os **contactos** da ETPC.";
+                }
 
-            appendMessage(formattedReply, 'bot', true);
+                const formattedReply = reply
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+
+                // Substitui a animação dos pontos pelo texto da resposta final
+                typingDiv.innerHTML = formattedReply;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1200);
         }
 
         function appendMessage(text, sender, isHTML = false) {
