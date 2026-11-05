@@ -6,30 +6,143 @@
     <title>ETPC - Assistente Virtual Inteligente</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; height: 100vh; display: flex; flex-direction: column; }
         
-        header { background: #1e293b; padding: 1rem 2rem; border-bottom: 1px solid #334155; display: flex; align-items: center; justify-content: space-between; }
-        header h1 { font-size: 1.25rem; color: #38bdf8; }
+        body { 
+            background-color: #f4f6f9; 
+            color: #2c3e50; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
         
-        .chat-container { flex: 1; max-width: 800px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; height: calc(100vh - 65px); padding: 1rem; }
-        .chat-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; padding: 1rem 0; }
+        /* Header com as cores oficiais da ETPC */
+        header { 
+            background: #ffffff; 
+            padding: 0.8rem 2rem; 
+            border-bottom: 3px solid #e67e22; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-brand img {
+            height: 45px;
+            width: auto;
+        }
         
-        .message { max-width: 80%; padding: 0.8rem 1.2rem; border-radius: 12px; font-size: 0.95rem; line-height: 1.5; }
-        .message.bot { background: #1e293b; color: #f8fafc; align-self: flex-start; border: 1px solid #334155; }
-        .message.user { background: #0284c7; color: white; align-self: flex-end; }
-        .message a { color: #38bdf8; font-weight: bold; word-break: break-all; }
+        header h1 { 
+            font-size: 1.2rem; 
+            color: #005580; 
+            font-weight: 700;
+        }
         
-        .chat-footer { display: flex; gap: 0.5rem; padding: 1rem 0; }
-        .chat-footer input { flex: 1; background: #1e293b; border: 1px solid #334155; color: white; padding: 0.8rem 1.2rem; border-radius: 25px; outline: none; }
-        .chat-footer input:focus { border-color: #38bdf8; }
-        .chat-footer button { background: #0284c7; color: white; border: none; border-radius: 25px; padding: 0.8rem 1.5rem; font-weight: bold; cursor: pointer; }
-        .chat-footer button:hover { background: #0369a1; }
+        .chat-container { 
+            flex: 1; 
+            max-width: 850px; 
+            width: 100%; 
+            margin: 0 auto; 
+            display: flex; 
+            flex-direction: column; 
+            height: calc(100vh - 70px); 
+            padding: 1rem; 
+        }
+
+        .chat-body { 
+            flex: 1; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1rem; 
+            padding: 1rem 0; 
+        }
+        
+        /* Balões de Mensagem */
+        .message { 
+            max-width: 80%; 
+            padding: 0.9rem 1.2rem; 
+            border-radius: 12px; 
+            font-size: 0.95rem; 
+            line-height: 1.5; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .message.bot { 
+            background: #ffffff; 
+            color: #2c3e50; 
+            align-self: flex-start; 
+            border-left: 4px solid #e67e22;
+        }
+
+        .message.user { 
+            background: #0088cc; 
+            color: white; 
+            align-self: flex-end; 
+            border-bottom-right-radius: 2px;
+        }
+
+        .message a { 
+            color: #0088cc; 
+            font-weight: bold; 
+            word-break: break-all; 
+        }
+        
+        .message.user a {
+            color: #ffd194;
+        }
+
+        /* Rodapé de Envio */
+        .chat-footer { 
+            display: flex; 
+            gap: 0.5rem; 
+            padding: 1rem 0; 
+        }
+
+        .chat-footer input { 
+            flex: 1; 
+            background: #ffffff; 
+            border: 2px solid #0088cc; 
+            color: #2c3e50; 
+            padding: 0.8rem 1.2rem; 
+            border-radius: 25px; 
+            outline: none; 
+            font-size: 0.95rem;
+        }
+
+        .chat-footer input:focus { 
+            border-color: #e67e22; 
+        }
+
+        .chat-footer button { 
+            background: linear-gradient(135deg, #e67e22, #f39c12); 
+            color: white; 
+            border: none; 
+            border-radius: 25px; 
+            padding: 0.8rem 1.8rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: opacity 0.2s;
+        }
+
+        .chat-footer button:hover { 
+            opacity: 0.9; 
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>ETPC - Assistente Virtual Inteligente (etpc.pt)</h1>
+        <div class="header-brand">
+            <!-- Caminho relativo para a imagem do logótipo guardada na pasta public ou raiz -->
+            <img src="/Logo_ETPC.png" alt="Logótipo ETPC" onerror="this.style.display='none'">
+            <h1>ETPC - Assistente Virtual Inteligente</h1>
+        </div>
     </header>
 
     <div class="chat-container">
@@ -53,7 +166,7 @@
 
             apoios: "A ETPC disponibiliza diversos **Apoios Sociais e Financeiros** para os alunos dos cursos profissionais:\n\n• Subsídio de Transporte / Passe escolar\n• Subsídio de Alimentação (ou refeição na cantina)\n• Bolsa de Material de Estudo (consoante o escalão do Ação Social Escolar)\n• Bolsa de Estágio (durante a FCT, quando aplicável)\n\nInscrições e condições em: https://etpc.pt/inscricoes",
 
-            universidade: "Sim! Os alunos que concluem o ensino profissional na ETPC ficam com o 12º ano completo e **podem prosseguir estudos para o Ensino Superior** (Faculdade ou CPTs/TESP):\n\n• Podem realizar os exames nacionais normais OU aderir às **Vias Especializadas de Acesso** criadas para alunos do Ensino Profissional (concursos especiais sem depender exclusivamente dos exames nacionais gerais).\n\nMais sobre a escola em: https://etpc.pt/",
+            universidade: "Sim! Os alunos que concluem o ensino profissional na ETPC ficam com o 12º ano completo e **podem prosseguir estudos para o Ensino Superior** (Faculdade ou CPTs/TESP):\n\n• Podem realizar os exames nacionais normais OU aderir às **Vias Especializadas de Acesso** criadas para alunos do Ensino Profissional.\n\nMais sobre a escola em: https://etpc.pt/",
 
             contactos: "Podes contactar a ETPC através de:\n\n• **Email:** geral@etpc.pt\n• **Localização:** Cantanhede, Portugal\n\nFormulário e detalhes em: https://etpc.pt/contactos",
 
@@ -81,44 +194,34 @@
                 const qLower = question.toLowerCase();
                 let reply = "";
 
-                // Filtro de perguntas fora do âmbito
                 if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita') || qLower.includes('jogo')) {
                     reply = "Lamento, mas sou um assistente exclusivo da ETPC e apenas posso responder a questões sobre a escola, cursos, estágios e funcionamento escolar.";
                 } 
-                // Perguntas sobre PAP
                 else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('projeto final') || qLower.includes('juri') || qLower.includes('júri')) {
                     reply = baseConhecimento.pap;
                 } 
-                // Perguntas sobre Estágios / FCT
                 else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('horas de estágio')) {
                     reply = baseConhecimento.estagios;
                 } 
-                // Perguntas sobre Cursos
                 else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('programação') || qLower.includes('multimédia') || qLower.includes('eletrónica') || qLower.includes('restauração')) {
                     reply = baseConhecimento.cursos;
                 } 
-                // Perguntas sobre Acesso à Faculdade / Prossecução de Estudos
                 else if (qLower.includes('faculdade') || qLower.includes('universidade') || qLower.includes('ensino superior') || qLower.includes('exames') || qLower.includes('continuar a estudar')) {
                     reply = baseConhecimento.universidade;
                 } 
-                // Perguntas sobre Apoios e Bolsas
                 else if (qLower.includes('bolsa') || qLower.includes('subsídio') || qLower.includes('subsidio') || qLower.includes('transporte') || qLower.includes('cantina') || qLower.includes('alimentação') || qLower.includes('pagam')) {
                     reply = baseConhecimento.apoios;
                 } 
-                // Contactos
                 else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('morada') || qLower.includes('onde fica') || qLower.includes('localização')) {
                     reply = baseConhecimento.contactos;
                 } 
-                // Sobre a escola / Candidaturas
                 else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre') || qLower.includes('inscricao') || qLower.includes('inscrição') || qLower.includes('candidatura')) {
                     reply = baseConhecimento.sobre;
                 } 
-                // Resposta padrão caso não reconheça
                 else {
                     reply = "Lamento, não encontrei uma resposta exata para essa questão na base de dados da ETPC. Podes perguntar sobre os **cursos**, a **PAP**, os **estágios (FCT)**, **apoios/bolsas** ou consultar o site oficial em https://etpc.pt/";
                 }
 
-                // Formatar URLs e quebras de linha para HTML
                 const formattedReply = reply
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
