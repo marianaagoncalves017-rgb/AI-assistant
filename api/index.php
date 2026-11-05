@@ -15,7 +15,6 @@
             flex-direction: column; 
         }
         
-        /* Top Header ao estilo do site etpc.pt */
         .top-bar {
             background: #005689;
             color: white;
@@ -28,7 +27,6 @@
 
         .top-bar a { color: white; text-decoration: none; font-weight: 600; }
 
-        /* Header Principal */
         header { 
             background: #ffffff; 
             padding: 0.8rem 2rem; 
@@ -56,7 +54,6 @@
             font-weight: 700;
         }
         
-        /* Faixa Azul Principal (Banner) */
         .hero-banner {
             background: linear-gradient(135deg, #0080cb, #005689);
             color: white;
@@ -67,7 +64,6 @@
         .hero-banner h2 { font-size: 1.3rem; margin-bottom: 4px; }
         .hero-banner p { font-size: 0.9rem; opacity: 0.9; }
 
-        /* Contentor do Chat */
         .chat-container { 
             flex: 1; 
             max-width: 850px; 
@@ -88,7 +84,6 @@
             padding: 1rem 0; 
         }
         
-        /* Balões de Mensagem */
         .message { 
             max-width: 80%; 
             padding: 0.9rem 1.2rem; 
@@ -122,7 +117,6 @@
             color: #ffd194;
         }
 
-        /* Rodapé de Envio */
         .chat-footer { 
             display: flex; 
             gap: 0.5rem; 
@@ -169,7 +163,8 @@
 
     <header>
         <div class="header-brand">
-            <img src="/Logo_ETPC.png" alt="ETPC Logo" onerror="this.style.display='none'">
+            <!-- Logótipo da ETPC incorporado em Base64 -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSU_SUA_IMAGEM_AQUI" alt="ETPC Logo" id="etpcLogo">
             <h1>ETPC - Assistente Virtual Oficial</h1>
         </div>
     </header>
@@ -190,19 +185,13 @@
     </div>
 
     <script>
-        // BASE DE DADOS BASEADA NO SITE REAL DA ETPC
         const baseConhecimento = {
             cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** oferece cursos profissionais de Nível 4 (com equivalência ao 12º ano) nas seguintes áreas de formação:\n\n• **Informática** (Técnico de Gestão e Programação de Sistemas Informáticos)\n• **Automação** (Técnico de Eletrónica, Automação e Comando)\n• **Restauração** (Cozinha/Pastelaria e Bar)\n• **Administração**\n• **Marketing**\n• **Desporto**\n• **Saúde e Bem-Estar**\n• **Segurança**\n\nTodos os cursos incluem **FCT (Estágio)** e a realização da **PAP**.\nConsulte a oferta em: https://etpc.pt/cursos",
-
-            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final realizado pelos alunos do 3º ano da ETPC.\n\n• **Em que consiste:** É a criação de um projeto prático e a sua apresentação perante um júri de avaliação (professores, direção e representantes de empresas parceiras).\n• **Objetivo:** Demonstrar a autonomia e todas as competências técnicas desenvolvidas nos 3 anos de curso.\n\nMais sobre os projetos da escola em: https://etpc.pt/",
-
+            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final realizado pelos alunos do 3º ano da ETPC.\n\n• **Em que consiste:** É a criação de um projeto prático e a sua apresentação perante um júri de avaliação.\n• **Objetivo:** Demonstrar a autonomia e todas as competências técnicas desenvolvidas nos 3 anos de curso.\n\nMais sobre os projetos da escola em: https://etpc.pt/",
             estagios: "A **FCT (Formação em Contexto de Trabalho)** representa a componente prática de estágio na ETPC:\n\n• **Funcionamento:** Os alunos realizam o estágio em empresas da região parceiras da escola para aplicarem os conhecimentos aprendidos nas aulas.\n• **Vantagem:** Permite aos alunos ganhar experiência profissional real e ter a oportunidade de conseguir contrato de trabalho após o curso.\n\nMais informações em: https://etpc.pt/cte",
-
-            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC para alunos com o 9º ano completo!\n\n• A escola oferece apoios sociais (subsídio de transporte, alimentação e apoio escolar de acordo com as condições aplicáveis).\n\nGarante a tua vaga em: https://etpc.pt/inscricoes",
-
+            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC para alunos com o 9º ano completo!\n\n• A escola oferece apoios sociais (subsídio de transporte, alimentação e apoio escolar).\n\nGarante a tua vaga em: https://etpc.pt/inscricoes",
             contactos: "Contactos da ETPC - Escola Técnico Profissional de Cantanhede:\n\n• **Localização:** Cantanhede, Portugal\n• **Email:** geral@etpc.pt\n\nVisualiza os contactos completos em: https://etpc.pt/contactos",
-
-            sobre: "A ETPC (Escola Técnico Profissional de Cantanhede) é uma instituição de referência na formação profissional, focada na ligação prática com o tecido empresarial e na preparação para o mercado de trabalho e universidade.\n\nMais informações em: https://etpc.pt/"
+            sobre: "A ETPC (Escola Técnico Profissional de Cantanhede) é uma instituição de referência na formação profissional, focada na ligação prática com o tecido empresarial.\n\nMais informações em: https://etpc.pt/"
         };
 
         function handleKeyPress(event) {
