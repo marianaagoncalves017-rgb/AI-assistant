@@ -192,33 +192,28 @@
 
     <script>
         const baseConhecimento = {
-            quantidadeCursos: "A ETPC disponibiliza **8 áreas de formação profissional principais**:\n\n1. Informática\n2. Eletrónica e Automação\n3. Restauração (Cozinha/Pastelaria e Bar)\n4. Desporto\n5. Marketing\n6. Administração\n7. Saúde e Bem-Estar\n8. Segurança\n\nSe quiseres saber detalhes de algum curso em específico, basta perguntar!",
+            quantidadeCursos: "A ETPC disponibiliza **8 cursos profissionais** principais:\n\n1. **Técnico de Gestão e Programação de Sistemas Informáticos**\n2. **Técnico de Eletrónica, Automação e Comando**\n3. **Técnico de Cozinha / Pastelaria**\n4. **Técnico de Serviço de Restauração e Bar**\n5. **Técnico de Apoio à Gestão / Administração**\n6. **Técnico de Marketing e Comunicação**\n7. **Técnico de Desporto**\n8. **Técnico Auxiliar de Saúde**\n\nTodos concedem equivalência ao 12º ano (Nível 4) e incluem estágio em empresa (FCT)!",
 
-            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** disponibiliza Cursos Profissionais de Nível 4 (equivalente ao 12º ano) nas seguintes áreas:\n\n" +
-                    "1. **Técnico de Gestão e Programação de Sistemas Informáticos:** Desenvolvimento de software, web e redes.\n" +
-                    "2. **Técnico de Eletrónica, Automação e Comando:** Sistemas automatizados, robótica e circuitos.\n" +
-                    "3. **Técnico de Restauração (Cozinha/Pastelaria e Bar):** Confeção culinária e serviço de mesa/bar.\n" +
-                    "4. **Desporto:** Organização e acompanhamento de atividades físicas e desportivas.\n" +
-                    "5. **Marketing:** Comunicação, estratégia digital e vendas.\n" +
-                    "6. **Administração:** Gestão documental, financeira e administrativa.\n" +
-                    "7. **Saúde e Bem-Estar:** Cuidados auxiliares e apoio de saúde.\n" +
-                    "8. **Segurança:** Proteção de bens e pessoas e sistemas de segurança.\n\n" +
-                    "Todos os cursos duram 3 anos e incluem estágio (FCT) e a Prova de Aptidão Profissional (PAP).",
+            cursos: "Os **8 cursos profissionais** oferecidos na ETPC (com equivalência ao 12º ano) são:\n\n" +
+                    "1. **Técnico de Gestão e Programação de Sistemas Informáticos**\n" +
+                    "2. **Técnico de Eletrónica, Automação e Comando**\n" +
+                    "3. **Técnico de Cozinha / Pastelaria**\n" +
+                    "4. **Técnico de Serviço de Restauração e Bar**\n" +
+                    "5. **Técnico de Apoio à Gestão / Administração**\n" +
+                    "6. **Técnico de Marketing e Comunicação**\n" +
+                    "7. **Técnico de Desporto**\n" +
+                    "8. **Técnico Auxiliar de Saúde**\n\n" +
+                    "Todos os cursos têm a duração de 3 anos e incluem estágio (FCT) e a Prova de Aptidão Profissional (PAP).",
 
-            pap: "A **PAP (Prova de Aptidão Profissional)** é um projeto prático individual (ou em pequena equipa) desenvolvido no 3º ano:\n\n" +
-                 "• **Objetivo:** Aplicar as competências técnicas adquiridas durante o curso.\n" +
-                 "• **Componentes:** Projeto prático, relatório e apresentação perante um júri de avaliação.",
+            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação.",
 
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório em empresas parceiras:\n\n" +
-                      "• Permite vivenciar o ambiente real de trabalho e criar contactos com o mercado empresarial.\n" +
-                      "• Conta com orientação de um Tutor na empresa e de um Orientador na ETPC.",
+            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular de formação prática em ambiente real de trabalho junto de empresas parceiras.",
 
-            inscricoes: "As **Inscrições para 2026/2027 estão Abertas** para alunos com o 9º ano completo:\n\n" +
-                        "• **Apoios Disponíveis:** Subsídio de transporte, alimentação, bolsa de material de estudo e bolsa de estágio.",
+            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC com apoios sociais disponíveis (transporte, alimentação e bolsas).",
 
             contactos: "Contactos da **ETPC**:\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal",
 
-            sobre: "A **ETPC** é uma escola de ensino profissional de referência em Cantanhede, focada no mercado de trabalho e no acesso ao Ensino Superior."
+            sobre: "A **ETPC** é uma escola de ensino profissional em Cantanhede focada na ligação ao mercado de trabalho e preparação para a universidade."
         };
 
         function handleKeyPress(event) {
@@ -249,11 +244,10 @@
                 if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
                     reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
                 } 
-                // PERGUNTAS SOBRE QUANTIDADE / NÚMERO DE CURSOS
-                else if ((qLower.includes('quanto') || qLower.includes('numero') || qLower.includes('número') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('opcao') || qLower.includes('opção') || qLower.includes('opcoes') || qLower.includes('opções'))) {
+                // DETEÇÃO DIRETA DE PERGUNTAS SOBRE QUANTIDADE/NÚMERO
+                else if (qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total de cursos')) {
                     reply = baseConhecimento.quantidadeCursos;
                 }
-                // PERGUNTAS SOBRE A LISTA DE CURSOS
                 else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
                     reply = baseConhecimento.cursos;
                 } 
@@ -277,7 +271,7 @@
                 }
 
                 const formattedReply = reply
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1$2</strong>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\n/g, '<br>');
 
                 typingDiv.innerHTML = formattedReply;
