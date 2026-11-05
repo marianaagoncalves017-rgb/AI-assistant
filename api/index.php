@@ -163,8 +163,7 @@
 
     <header>
         <div class="header-brand">
-            <!-- Logótipo da ETPC convertido e embutido diretamente em dados de imagem -->
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'><path fill='%23f39c12' d='M50 0 L90 25 L50 50 L10 25 Z'/><path fill='%23e67e22' d='M50 30 L90 55 L50 80 L10 55 Z'/><path fill='%230080cb' d='M50 60 L90 85 L50 110 L10 85 Z'/></svg>" alt="Logótipo ETPC" id="etpcLogo">
+            <img src="/api/Logo_ETPC.png" alt="Logótipo ETPC" id="etpcLogo">
             <h1>ETPC - Assistente Virtual Oficial</h1>
         </div>
     </header>
@@ -187,11 +186,11 @@
     <script>
         const baseConhecimento = {
             cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** oferece cursos profissionais de Nível 4 (com equivalência ao 12º ano) nas seguintes áreas de formação:\n\n• **Informática** (Técnico de Gestão e Programação de Sistemas Informáticos)\n• **Automação** (Técnico de Eletrónica, Automação e Comando)\n• **Restauração** (Cozinha/Pastelaria e Bar)\n• **Administração**\n• **Marketing**\n• **Desporto**\n• **Saúde e Bem-Estar**\n• **Segurança**\n\nTodos os cursos incluem **FCT (Estágio)** e a realização da **PAP**.\nConsulte a oferta em: https://etpc.pt/cursos",
-            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final realizado pelos alunos do 3º ano da ETPC.\n\n• **Em que consiste:** É a criação de um projeto prático e a sua apresentação perante um júri de avaliação.\n• **Objetivo:** Demonstrar a autonomia e todas as competências técnicas desenvolvidas nos 3 anos de curso.\n\nMais sobre os projetos da escola em: https://etpc.pt/",
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** representa a componente prática de estágio na ETPC:\n\n• **Funcionamento:** Os alunos realizam o estágio em empresas da região parceiras da escola para aplicarem os conhecimentos aprendidos nas aulas.\n• **Vantagem:** Permite aos alunos ganhar experiência profissional real e ter a oportunidade de conseguir contrato de trabalho após o curso.\n\nMais informações em: https://etpc.pt/cte",
-            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC para alunos com o 9º ano completo!\n\n• A escola oferece apoios sociais (subsídio de transporte, alimentação e apoio escolar).\n\nGarante a tua vaga em: https://etpc.pt/inscricoes",
+            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final realizado pelos alunos do 3º ano da ETPC.\n\n• **Em que consiste:** É a criação de um projeto prático individual ou em equipa e a sua apresentação perante um júri de avaliação.\n• **Objetivo:** Demonstrar a autonomia e todas as competências técnicas adquiridas ao longo dos 3 anos de curso.\n\nMais sobre a escola em: https://etpc.pt/",
+            estagios: "A **FCT (Formação em Contexto de Trabalho)** representa a componente prática de estágio na ETPC:\n\n• **Funcionamento:** Os alunos realizam o estágio em empresas parceiras da região para aplicarem os conhecimentos aprendidos nas aulas.\n• **Vantagem:** Permite ganhar experiência profissional real no mercado de trabalho e facilitar a futura contratação.\n\nMais informações em: https://etpc.pt/cte",
+            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC para alunos com o 9º ano completo!\n\n• A escola oferece apoios sociais como subsídio de transporte, alimentação e bolsa de material escolar.\n\nGarante a tua vaga em: https://etpc.pt/inscricoes",
             contactos: "Contactos da ETPC - Escola Técnico Profissional de Cantanhede:\n\n• **Localização:** Cantanhede, Portugal\n• **Email:** geral@etpc.pt\n\nVisualiza os contactos completos em: https://etpc.pt/contactos",
-            sobre: "A ETPC (Escola Técnico Profissional de Cantanhede) é uma instituição de referência na formação profissional, focada na ligação prática com o tecido empresarial.\n\nMais informações em: https://etpc.pt/"
+            sobre: "A ETPC (Escola Técnico Profissional de Cantanhede) é uma instituição de referência na formação profissional, focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores.\n\nMais informações em: https://etpc.pt/"
         };
 
         function handleKeyPress(event) {
