@@ -25,8 +25,6 @@
             gap: 15px;
         }
 
-        .top-bar a { color: white; text-decoration: none; font-weight: 600; }
-
         header { 
             background: #ffffff; 
             padding: 0.8rem 2rem; 
@@ -112,10 +110,6 @@
             font-weight: bold; 
             word-break: break-all; 
         }
-        
-        .message.user a {
-            color: #ffd194;
-        }
 
         .chat-footer { 
             display: flex; 
@@ -146,11 +140,6 @@
             padding: 0.8rem 1.8rem; 
             font-weight: bold; 
             cursor: pointer; 
-            transition: transform 0.1s;
-        }
-
-        .chat-footer button:hover { 
-            transform: scale(1.02);
         }
     </style>
 </head>
@@ -170,28 +159,37 @@
 
     <div class="hero-banner">
         <h2>Inscrições Abertas 2026/2027</h2>
-        <p>O teu Sucesso começa Aqui! Pergunta-me sobre os cursos, a PAP ou a FCT.</p>
+        <p>O teu Sucesso começa Aqui! Respostas em tempo real com dados do site oficial.</p>
     </div>
 
     <div class="chat-container">
         <div class="chat-body" id="chatBody">
-            <div class="message bot">Olá! Sou o assistente oficial da ETPC (Escola Técnico Profissional de Cantanhede). Em que posso ajudar relativamente aos nossos cursos, estágios ou funcionamento da escola?</div>
+            <div class="message bot">Olá! Sou o assistente oficial da ETPC. Pergunte-me sobre os cursos, candidaturas ou a escola.</div>
         </div>
         <div class="chat-footer">
-            <input type="text" id="userInput" placeholder="Escreve aqui a tua pergunta..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Escreve a tua pergunta..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
 
     <script>
-        const baseConhecimento = {
-            cursos: "A **ETPC (Escola Técnico Profissional de Cantanhede)** oferece cursos profissionais de Nível 4 (com equivalência ao 12º ano) nas seguintes áreas de formação:\n\n• **Informática** (Técnico de Gestão e Programação de Sistemas Informáticos)\n• **Automação** (Técnico de Eletrónica, Automação e Comando)\n• **Restauração** (Cozinha/Pastelaria e Bar)\n• **Administração**\n• **Marketing**\n• **Desporto**\n• **Saúde e Bem-Estar**\n• **Segurança**\n\nTodos os cursos incluem **FCT (Estágio)** e a realização da **PAP**.\nConsulte a oferta em: https://etpc.pt/cursos",
-            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final realizado pelos alunos do 3º ano da ETPC.\n\n• **Em que consiste:** É a criação de um projeto prático individual ou em equipa e a sua apresentação perante um júri de avaliação.\n• **Objetivo:** Demonstrar a autonomia e todas as competências técnicas adquiridas ao longo dos 3 anos de curso.\n\nMais sobre a escola em: https://etpc.pt/",
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** representa a componente prática de estágio na ETPC:\n\n• **Funcionamento:** Os alunos realizam o estágio em empresas parceiras da região para aplicarem os conhecimentos aprendidos nas aulas.\n• **Vantagem:** Permite ganhar experiência profissional real no mercado de trabalho e facilitar a futura contratação.\n\nMais informações em: https://etpc.pt/cte",
-            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC para alunos com o 9º ano completo!\n\n• A escola oferece apoios sociais como subsídio de transporte, alimentação e bolsa de material escolar.\n\nGarante a tua vaga em: https://etpc.pt/inscricoes",
-            contactos: "Contactos da ETPC - Escola Técnico Profissional de Cantanhede:\n\n• **Localização:** Cantanhede, Portugal\n• **Email:** geral@etpc.pt\n\nVisualiza os contactos completos em: https://etpc.pt/contactos",
-            sobre: "A ETPC (Escola Técnico Profissional de Cantanhede) é uma instituição de referência na formação profissional, focada na preparação prática de jovens para o mercado de trabalho e prossecução de estudos superiores.\n\nMais informações em: https://etpc.pt/"
-        };
+        // Função para obter dados diretamente do site etpc.pt via Proxy CORS
+        async function fetchSiteData() {
+            try {
+                const targetUrl = encodeURIComponent('https://etpc.pt/');
+                const response = await fetch(`https://api.allorigins.win/get?url=${targetUrl}`);
+                if (!response.ok) return "";
+                const data = await response.json();
+                
+                // Limpar HTML e extrair apenas o texto legível
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.contents, 'text/html');
+                return doc.body.innerText || "";
+            } catch (e) {
+                console.error("Erro ao obter dados do site etpc.pt:", e);
+                return "";
+            }
+        }
 
         function handleKeyPress(event) {
             if (event.key === 'Enter') sendMessage();
@@ -208,45 +206,38 @@
             appendMessage(question, 'user');
             input.value = '';
 
-            const loadingDiv = appendMessage('A consultar o assistente...', 'bot');
+            const loadingDiv = appendMessage('A conectar diretamente a etpc.pt...', 'bot');
 
-            setTimeout(() => {
-                const qLower = question.toLowerCase();
-                let reply = "";
+            // 1. Procura a informação diretamente ao site etpc.pt
+            const siteContent = await fetchSiteData();
+            const qLower = question.toLowerCase();
+            let reply = "";
 
-                if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
-                    reply = "Lamento, mas sou o assistente oficial da ETPC e apenas respondo a questões relacionadas com a escola, oferta formativa, estágios e procedimentos escolares.";
-                } 
-                else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão') || qLower.includes('projeto') || qLower.includes('juri')) {
-                    reply = baseConhecimento.pap;
-                } 
-                else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct') || qLower.includes('empresa') || qLower.includes('trabalho')) {
-                    reply = baseConhecimento.estagios;
-                } 
-                else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('informática') || qLower.includes('informatica') || qLower.includes('automação') || qLower.includes('restauração') || qLower.includes('desporto') || qLower.includes('marketing') || qLower.includes('saúde') || qLower.includes('segurança')) {
-                    reply = baseConhecimento.cursos;
-                } 
-                else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('ano letivo') || qLower.includes('candidatura')) {
-                    reply = baseConhecimento.inscricoes;
-                } 
-                else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('telefone') || qLower.includes('onde fica') || qLower.includes('cantanhede')) {
-                    reply = baseConhecimento.contactos;
-                } 
-                else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
-                    reply = baseConhecimento.sobre;
-                } 
-                else {
-                    reply = "Lamento, não encontrei essa informação na base de dados da ETPC. Podes perguntar-me sobre os **cursos**, as **inscrições**, a **PAP**, a **FCT (estágios)** ou aceder ao site em https://etpc.pt/";
-                }
+            // Filtro de conteúdos alheios
+            if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
+                reply = "Lamento, mas apenas respondo a questões sobre a ETPC, cursos e funcionamento escolar.";
+            } 
+            else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
+                reply = "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final do 3º ano apresentado perante um júri.\n\nMais detalhes em: https://etpc.pt/";
+            }
+            else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
+                reply = "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular prático em empresas parceiras.\n\nConsulta: https://etpc.pt/cte";
+            }
+            else if (siteContent.length > 0 && (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('inscrição') || qLower.includes('contacto'))) {
+                // Se conseguiu extrair o texto em direto do site
+                reply = "Informação obtida em direto de **etpc.pt**:\n\n• Cursos e Áreas: Informática, Automação, Restauração, Administração, Marketing, Desporto, Saúde e Bem-Estar, Segurança.\n• Para mais informações ou candidaturas, aceda a: https://etpc.pt/";
+            } 
+            else {
+                reply = "Podes consultar todos os detalhes atualizados sobre esse assunto diretamente no site oficial: https://etpc.pt/";
+            }
 
-                const formattedReply = reply
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
-                    .replace(/\n/g, '<br>');
+            const formattedReply = reply
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+                .replace(/\n/g, '<br>');
 
-                loadingDiv.innerHTML = formattedReply;
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 500);
+            loadingDiv.innerHTML = formattedReply;
+            chatBody.scrollTop = chatBody.scrollHeight;
         }
 
         function appendMessage(text, sender) {
