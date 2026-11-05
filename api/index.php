@@ -163,7 +163,6 @@
 
     <header>
         <div class="header-brand">
-            <!-- Logótipo da ETPC incorporado em Base64 -->
             <img src="/api/Logo_ETPC.png" alt="Logótipo ETPC" id="etpcLogo">
             <h1>ETPC - Assistente Virtual Oficial</h1>
         </div>
