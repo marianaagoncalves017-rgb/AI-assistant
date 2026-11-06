@@ -1,0 +1,32 @@
+{
+  "cursos": {
+    "quantidade": 11,
+    "lista_profissionais": [
+      "Cabeleireiro/a",
+      "Esteticista",
+      "Técnico/a de Apoio à Intervenção Social",
+      "Técnico/a de Comunicação - Assessoria, Relações Públicas e Publicidade",
+      "Técnico/a de Cozinha e Pastelaria",
+      "Técnico/a de Desporto",
+      "Técnico/a de Eletrónica Automóvel",
+      "Técnico/a de Eletrónica e Automação",
+      "Técnico/a de Gestão e Administração",
+      "Técnico/a de Restauração e Bar",
+      "Técnico/a de Sistemas de Computação e Redes"
+    ],
+    "ctesp": ["CDT T. Computador", "CDT T. Operador de Informática"],
+    "adultos": ["Formação Modular Certificada"]
+  },
+  "estagios": {
+    "horas": "400 a 420 horas",
+    "anos": "2º e 3º ano",
+    "descricao": "A FCT (Formação em Contexto de Trabalho) é o estágio curricular obrigatório..."
+  },
+  "pap": {
+    "descricao": "A PAP (Prova de Aptidão Profissional) é o projeto prático final individual/equipa realizado no 3º ano..."
+  },
+  "contactos": {
+    "email": "geral@etpc.pt",
+    "localizacao": "Cantanhede, Portugal"
+  }
+}
