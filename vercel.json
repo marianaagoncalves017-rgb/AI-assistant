@@ -10,8 +10,8 @@
       "dest": "/Logo_ETPC.png"
     },
     {
-      "src": "/api/conhecimento.json",
-      "dest": "/api/conhecimento.json"
+      "src": "/conhecimento.json",
+      "dest": "/conhecimento.json"
     },
     {
       "src": "/api/script.js",
