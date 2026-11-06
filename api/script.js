@@ -1,28 +1,19 @@
-let baseConhecimento = null;
+let baseConhecimento = {};
 
-// Carrega o ficheiro JSON a partir da raiz
-async function carregarBD() {
-    try {
-        const res = await fetch('/conhecimento.json');
-        if (res.ok) {
-            baseConhecimento = await res.json();
-            console.log("Base de conhecimento carregada com sucesso.");
-        } else {
-            console.error("Erro ao carregar ficheiro JSON. Status:", res.status);
-        }
-    } catch (err) {
-        console.error("Erro ao efetuar fetch do conhecimento.json:", err);
-    }
-}
-
-// Executa o carregamento imediatamente
-carregarBD();
+// Carrega o ficheiro JSON em segundo plano sem bloquear a interface
+fetch('/conhecimento.json')
+    .then(res => res.json())
+    .then(data => {
+        baseConhecimento = data;
+        console.log("Base de conhecimento carregada.");
+    })
+    .catch(err => console.error("Erro ao carregar conhecimento.json:", err));
 
 function handleKeyPress(event) {
     if (event.key === 'Enter') sendMessage();
 }
 
-async function sendMessage() {
+function sendMessage() {
     const input = document.getElementById('userInput');
     const chatBody = document.getElementById('chatBody');
     
@@ -30,20 +21,18 @@ async function sendMessage() {
     const question = input.value.trim();
     if (!question) return;
 
+    // 1. Mostra a pergunta do utilizador imediatamente no chat
     appendMessage(question, 'user');
     input.value = '';
 
+    // 2. Mostra a animação de "a escrever..."
     const typingDiv = appendMessage(
         '<div class="typing-indicator"><span></span><span></span><span></span></div>', 
         'bot', 
         true
     );
 
-    // Se o JSON ainda não tiver sido descarregado, aguarda a resposta
-    if (!baseConhecimento) {
-        await carregarBD();
-    }
-
+    // 3. Processa a resposta após 1 segundo
     setTimeout(() => {
         const qLower = question.toLowerCase();
         let reply = "";
