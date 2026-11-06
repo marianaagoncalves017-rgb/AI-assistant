@@ -1,86 +1,88 @@
-// Alterna a visibilidade da janela de chat
-function toggleChat() {
-    const chatWindow = document.getElementById('chatWindow');
-    if (!chatWindow) return;
-    
-    const isVisible = chatWindow.style.display === 'flex';
-    chatWindow.style.display = isVisible ? 'none' : 'flex';
-}
+let baseConhecimento = {};
 
-// Permite enviar a mensagem ao premir a tecla "Enter"
-function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-        sendMessage();
+// Carrega o ficheiro JSON de conhecimento
+async function carregarBD() {
+    try {
+        const res = await fetch('/api/conhecimento.json');
+        baseConhecimento = await res.json();
+    } catch (err) {
+        console.error("Erro ao carregar ficheiro JSON:", err);
     }
 }
+carregarBD();
 
-// Função principal de envio e receção de mensagens
-async function sendMessage() {
+function handleKeyPress(event) {
+    if (event.key === 'Enter') sendMessage();
+}
+
+function sendMessage() {
     const input = document.getElementById('userInput');
     const chatBody = document.getElementById('chatBody');
     
     if (!input || !chatBody) return;
-
     const question = input.value.trim();
-
-    // Se o campo estiver vazio, não faz nada
     if (!question) return;
 
-    // 1. Mostra a pergunta do utilizador no chat
     appendMessage(question, 'user');
     input.value = '';
 
-    // 2. Cria uma mensagem temporária de "A carregar..."
-    const loadingDiv = appendMessage('A pensar...', 'bot');
+    const typingDiv = appendMessage(
+        '<div class="typing-indicator"><span></span><span></span><span></span></div>', 
+        'bot', 
+        true
+    );
 
-    try {
-        // Prepara os dados para enviar via POST (para o index.php ou endpoint de backend)
-        const formData = new FormData();
-        formData.append('action', 'chat');
-        formData.append('question', question);
+    setTimeout(() => {
+        const qLower = question.toLowerCase();
+        let reply = "";
 
-        // Envia o pedido à aplicação
-        const response = await fetch('index.php', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error('Erro na resposta do servidor.');
+        if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
+            reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
+        } 
+        else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
+            reply = baseConhecimento.estagios;
+        } 
+        else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
+            reply = baseConhecimento.pap;
+        } 
+        else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
+            reply = baseConhecimento.inscricoes;
+        } 
+        else if ((qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta'))) {
+            reply = baseConhecimento.quantidadeCursos;
+        }
+        else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
+            reply = baseConhecimento.cursos;
+        } 
+        else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
+            reply = baseConhecimento.contactos;
+        } 
+        else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
+            reply = baseConhecimento.sobre;
+        } 
+        else {
+            reply = "Não encontrei essa informação específica. Podes perguntar-me sobre os cursos, a **PAP**, os estágios (**FCT**), as **horas de estágio**, os **apoios sociais** ou os **contactos** da ETPC.";
         }
 
-        const data = await response.json();
-        
-        // Formata a resposta: converte URLs de texto em hiperligações clicáveis
-        const replyText = data.reply || 'Lamento, ocorreu um erro ao obter a resposta.';
-        const formattedReply = replyText.replace(
-            /(https?:\/\/[^\s]+)/g, 
-            '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-        );
-        
-        // Atualiza o texto do balão do bot com a resposta formatada
-        loadingDiv.innerHTML = formattedReply;
+        const formattedReply = reply
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
 
-    } catch (error) {
-        console.error('Erro na comunicação:', error);
-        // Mensagem adequada em caso de indisponibilidade da IA ou falha de rede
-        loadingDiv.textContent = 'O assistente está temporariamente indisponível. Por favor, tenta mais tarde.';
-    }
-
-    // Faz scroll automático para a última mensagem
-    chatBody.scrollTop = chatBody.scrollHeight;
+        typingDiv.innerHTML = formattedReply;
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 1000);
 }
 
-// Adiciona um novo balão de mensagem à janela de chat
-function appendMessage(text, sender) {
+function appendMessage(text, sender, isHTML = false) {
     const chatBody = document.getElementById('chatBody');
     const msg = document.createElement('div');
-    
     msg.className = `message ${sender}`;
-    msg.textContent = text;
-    
+    if (isHTML) {
+        msg.innerHTML = text;
+    } else {
+        msg.textContent = text;
+    }
     chatBody.appendChild(msg);
     chatBody.scrollTop = chatBody.scrollHeight;
-    
     return msg;
 }
