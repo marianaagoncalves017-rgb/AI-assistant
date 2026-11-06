@@ -1,6 +1,6 @@
 let baseConhecimento = null;
 
-// Carrega o ficheiro JSON localizado na raiz do projeto
+// Carrega o ficheiro JSON a partir da raiz
 async function carregarBD() {
     try {
         const res = await fetch('/conhecimento.json');
@@ -8,14 +8,14 @@ async function carregarBD() {
             baseConhecimento = await res.json();
             console.log("Base de conhecimento carregada com sucesso.");
         } else {
-            console.error("Erro ao carregar o ficheiro JSON. Status:", res.status);
+            console.error("Erro ao carregar ficheiro JSON. Status:", res.status);
         }
     } catch (err) {
-        console.error("Erro na ligação ao ficheiro conhecimento.json:", err);
+        console.error("Erro ao efetuar fetch do conhecimento.json:", err);
     }
 }
 
-// Inicia o carregamento assim que o script é executado
+// Executa o carregamento imediatamente
 carregarBD();
 
 function handleKeyPress(event) {
@@ -39,7 +39,7 @@ async function sendMessage() {
         true
     );
 
-    // Se a BD ainda não tiver terminado de carregar, aguarda um instante
+    // Se o JSON ainda não tiver sido descarregado, aguarda a resposta
     if (!baseConhecimento) {
         await carregarBD();
     }
@@ -54,18 +54,20 @@ async function sendMessage() {
         // 1. ESTÁGIOS / FCT
         else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
             if (baseConhecimento && baseConhecimento.estagios) {
-                reply = `A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório:\n\n• **Duração:** ${baseConhecimento.estagios.horas} (distribuídas pelo ${baseConhecimento.estagios.anos}).\n• ${baseConhecimento.estagios.descricao}`;
+                reply = `A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório:\n\n• **Duração:** ${baseConhecimento.estagios.horas} (${baseConhecimento.estagios.anos}).\n• ${baseConhecimento.estagios.descricao}`;
             } else {
-                reply = "A FCT é o estágio curricular obrigatório em empresas parceiras com duração entre 400 a 420 horas.";
+                reply = "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório em empresas parceiras, realizado ao longo do 2º e 3º ano (400 a 420 horas).";
             }
         } 
         // 2. PAP
         else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
-            reply = (baseConhecimento && baseConhecimento.pap) ? baseConhecimento.pap.descricao : "A PAP é o projeto prático final realizado no 3º ano.";
+            reply = (baseConhecimento && baseConhecimento.pap) 
+                ? baseConhecimento.pap.descricao 
+                : "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação.";
         } 
         // 3. INSCRIÇÕES / BOLSA
         else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
-            reply = "As **Inscrições para 2026/2027 estão Abertas** na ETPC com vários apoios disponíveis (transporte, alimentação e bolsas de estudo).";
+            reply = "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC com apoios sociais disponíveis (transporte, alimentação e bolsas de estudo).";
         } 
         // 4. QUANTIDADE DE CURSOS
         else if ((qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta'))) {
@@ -73,7 +75,7 @@ async function sendMessage() {
                 const lista = baseConhecimento.cursos.lista_profissionais.map((c, i) => `${i + 1}. ${c}`).join('\n');
                 reply = `A ETPC disponibiliza **${baseConhecimento.cursos.quantidade} Cursos Profissionais de Nível 4**:\n\n${lista}`;
             } else {
-                reply = "A ETPC disponibiliza 11 Cursos Profissionais de Nível 4 com equivalência ao 12º ano.";
+                reply = "A ETPC disponibiliza **11 Cursos Profissionais de Nível 4** (equivalência ao 12º ano), além de opções CTeSP e Formação para Adultos.";
             }
         }
         // 5. LISTA DE CURSOS
@@ -85,7 +87,7 @@ async function sendMessage() {
                 
                 reply = `A **oferta formativa completa da ETPC** inclui:\n\n**Cursos Profissionais (Nível 4):**\n${prof}\n\n**CTeSP:**\n${ctesp}\n\n**Adultos:**\n${adultos}`;
             } else {
-                reply = "A ETPC disponibiliza cursos nas áreas de Informática, Restauração, Eletrónica, Saúde, Desporto, Beleza, CTeSP e Formação para Adultos.";
+                reply = "A ETPC disponibiliza 11 Cursos Profissionais (Cabeleireiro/a, Esteticista, Apoio à Intervenção Social, Comunicação, Cozinha/Pastelaria, Desporto, Eletrónica Automóvel, Eletrónica/Automação, Gestão/Administração, Restauração/Bar, Sistemas Informáticos), CTeSP e Formação de Adultos.";
             }
         } 
         // 6. CONTACTOS
@@ -93,12 +95,12 @@ async function sendMessage() {
             if (baseConhecimento && baseConhecimento.contactos) {
                 reply = `Contactos da **ETPC**:\n• Email: ${baseConhecimento.contactos.email}\n• Localização: ${baseConhecimento.contactos.localizacao}`;
             } else {
-                reply = "Contactos da ETPC: Email geral@etpc.pt | Cantanhede, Portugal.";
+                reply = "Contactos da ETPC:\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal";
             }
         } 
         // 7. SOBRE A ESCOLA
         else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
-            reply = "A **ETPC** é uma escola de ensino profissional de referência em Cantanhede, focada na ligação ao mercado de trabalho e preparação para a universidade.";
+            reply = "A **ETPC (Escola Técnico Profissional de Cantanhede)** é uma instituição de referência no ensino profissional, aproximando os alunos do mercado de trabalho e do Ensino Superior.";
         } 
         else {
             reply = "Não encontrei essa informação específica. Podes perguntar-me sobre os cursos, a **PAP**, os estágios (**FCT**), as **horas de estágio**, os **apoios sociais** ou os **contactos** da ETPC.";
