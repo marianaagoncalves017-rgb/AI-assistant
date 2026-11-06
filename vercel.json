@@ -10,6 +10,10 @@
       "dest": "/Logo_ETPC.png"
     },
     {
+      "src": "/api/conhecimento.json",
+      "dest": "/api/conhecimento.json"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
