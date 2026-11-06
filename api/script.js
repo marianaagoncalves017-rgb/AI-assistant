@@ -1,120 +1,101 @@
-let baseConhecimento = {};
-
-// Tenta carregar o ficheiro JSON sem bloquear o funcionamento da página
-fetch('/conhecimento.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro na resposta da rede: ' + response.status);
-        }
-        return response.json();
-    })
-    .then(data => {
-        baseConhecimento = data;
-        console.log("Base de conhecimento carregada com sucesso.");
-    })
-    .catch(error => {
-        console.error("Aviso: Não foi possível carregar conhecimento.json via fetch.", error);
-    });
+const baseConhecimento = {
+    cursos: {
+        quantidade: 11,
+        lista_profissionais: [
+            "Cabeleireiro/a",
+            "Esteticista",
+            "Técnico/a de Apoio à Intervenção Social",
+            "Técnico/a de Comunicação - Assessoria, Relações Públicas e Publicidade",
+            "Técnico/a de Cozinha e Pastelaria",
+            "Técnico/a de Desporto",
+            "Técnico/a de Eletrónica Automóvel",
+            "Técnico/a de Eletrónica e Automação",
+            "Técnico/a de Gestão e Administração",
+            "Técnico/a de Restauração e Bar",
+            "Técnico/a de Sistemas de Computação e Redes"
+        ],
+        ctesp: ["CDT T. Computador", "CDT T. Operador de Informática"],
+        adultos: ["Formação Modular Certificada"]
+    },
+    estagios: {
+        horas: "400 a 420 horas",
+        anos: "2º e 3º ano",
+        descricao: "A FCT (Formação em Contexto de Trabalho) é o estágio curricular obrigatório dos cursos profissionais, realizado em ambiente real numa empresa parceira."
+    },
+    pap: {
+        descricao: "A PAP (Prova de Aptidão Profissional) é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação."
+    },
+    contactos: {
+        email: "geral@etpc.pt",
+        localizacao: "Cantanhede, Portugal"
+    }
+};
 
 function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
+    if (event.key === 'Enter') sendMessage();
 }
 
 function sendMessage() {
-    try {
-        const input = document.getElementById('userInput');
-        const chatBody = document.getElementById('chatBody');
-        
-        if (!input || !chatBody) return;
-        const question = input.value.trim();
-        if (!question) return;
+    const input = document.getElementById('userInput');
+    const chatBody = document.getElementById('chatBody');
+    
+    if (!input || !chatBody) return;
+    const question = input.value.trim();
+    if (!question) return;
 
-        // 1. ADICIONA A PERGUNTA DO UTILIZADOR DE IMEDIATO
-        appendMessage(question, 'user');
-        input.value = '';
+    appendMessage(question, 'user');
+    input.value = '';
 
-        // 2. ADICIONA O INDICADOR DE "A ESCREVER..."
-        const typingDiv = appendMessage(
-            '<div class="typing-indicator"><span></span><span></span><span></span></div>', 
-            'bot', 
-            true
-        );
+    const typingDiv = appendMessage(
+        '<div class="typing-indicator"><span></span><span></span><span></span></div>', 
+        'bot', 
+        true
+    );
 
-        // 3. RESPOSTA DO BOT APÓS 1 SEGUNDO
-        setTimeout(() => {
-            const qLower = question.toLowerCase();
-            let reply = "";
+    setTimeout(() => {
+        const qLower = question.toLowerCase();
+        let reply = "";
 
-            if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
-                reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
-            } 
-            // 1. ESTÁGIOS / FCT
-            else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
-                if (baseConhecimento && baseConhecimento.estagios) {
-                    reply = `A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório:\n\n• **Duração:** ${baseConhecimento.estagios.horas} (${baseConhecimento.estagios.anos}).\n• ${baseConhecimento.estagios.descricao}`;
-                } else {
-                    reply = "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório em empresas parceiras com duração entre 400 a 420 horas.";
-                }
-            } 
-            // 2. PAP
-            else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
-                reply = (baseConhecimento && baseConhecimento.pap && baseConhecimento.pap.descricao) 
-                    ? baseConhecimento.pap.descricao 
-                    : "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação.";
-            } 
-            // 3. INSCRIÇÕES / BOLSA
-            else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
-                reply = "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC com apoios sociais disponíveis (transporte, alimentação e bolsas de estudo).";
-            } 
-            // 4. QUANTIDADE DE CURSOS
-            else if ((qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta'))) {
-                if (baseConhecimento && baseConhecimento.cursos && baseConhecimento.cursos.lista_profissionais) {
-                    const lista = baseConhecimento.cursos.lista_profissionais.map((c, i) => `${i + 1}. ${c}`).join('\n');
-                    reply = `A ETPC disponibiliza **${baseConhecimento.cursos.quantidade} Cursos Profissionais de Nível 4**:\n\n${lista}`;
-                } else {
-                    reply = "A ETPC disponibiliza **11 Cursos Profissionais de Nível 4** (equivalência ao 12º ano), além de opções CTeSP e Formação para Adultos.";
-                }
-            }
-            // 5. LISTA DE CURSOS
-            else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
-                if (baseConhecimento && baseConhecimento.cursos && baseConhecimento.cursos.lista_profissionais) {
-                    const prof = baseConhecimento.cursos.lista_profissionais.map(c => `• ${c}`).join('\n');
-                    const ctesp = baseConhecimento.cursos.ctesp ? baseConhecimento.cursos.ctesp.map(c => `• ${c}`).join('\n') : '';
-                    const adultos = baseConhecimento.cursos.adultos ? baseConhecimento.cursos.adultos.map(c => `• ${c}`).join('\n') : '';
-                    
-                    reply = `A **oferta formativa completa da ETPC** inclui:\n\n**Cursos Profissionais (Nível 4):**\n${prof}\n\n**CTeSP:**\n${ctesp}\n\n**Adultos:**\n${adultos}`;
-                } else {
-                    reply = "A ETPC disponibiliza 11 Cursos Profissionais (Cabeleireiro/a, Esteticista, Apoio à Intervenção Social, Comunicação, Cozinha/Pastelaria, Desporto, Eletrónica Automóvel, Eletrónica/Automação, Gestão/Administração, Restauração/Bar, Sistemas Informáticos), CTeSP e Formação de Adultos.";
-                }
-            } 
-            // 6. CONTACTOS
-            else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
-                if (baseConhecimento && baseConhecimento.contactos) {
-                    reply = `Contactos da **ETPC**:\n• Email: ${baseConhecimento.contactos.email}\n• Localização: ${baseConhecimento.contactos.localizacao}`;
-                } else {
-                    reply = "Contactos da ETPC:\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal";
-                }
-            } 
-            // 7. SOBRE A ESCOLA
-            else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
-                reply = "A **ETPC (Escola Técnico Profissional de Cantanhede)** é uma instituição de referência no ensino profissional, aproximando os alunos do mercado de trabalho e do Ensino Superior.";
-            } 
-            else {
-                reply = "Não encontrei essa informação específica. Podes perguntar-me sobre os cursos, a **PAP**, os estágios (**FCT**), as **horas de estágio**, os **apoios sociais** ou os **contactos** da ETPC.";
-            }
+        if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
+            reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
+        } 
+        else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
+            reply = `A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório:\n\n• **Duração:** ${baseConhecimento.estagios.horas} (${baseConhecimento.estagios.anos}).\n• **Objetivo:** ${baseConhecimento.estagios.descricao}`;
+        } 
+        else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
+            reply = baseConhecimento.pap.descricao;
+        } 
+        else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
+            reply = "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC com apoios sociais disponíveis (transporte, alimentação e bolsas de estudo).";
+        } 
+        else if ((qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta'))) {
+            const lista = baseConhecimento.cursos.lista_profissionais.map((c, i) => `${i + 1}. ${c}`).join('\n');
+            reply = `A ETPC disponibiliza **${baseConhecimento.cursos.quantidade} Cursos Profissionais de Nível 4**:\n\n${lista}`;
+        }
+        else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
+            const prof = baseConhecimento.cursos.lista_profissionais.map(c => `• ${c}`).join('\n');
+            const ctesp = baseConhecimento.cursos.ctesp.map(c => `• ${c}`).join('\n');
+            const adultos = baseConhecimento.cursos.adultos.map(c => `• ${c}`).join('\n');
+            
+            reply = `A **oferta formativa completa da ETPC** inclui:\n\n**Cursos Profissionais (Nível 4):**\n${prof}\n\n**CTeSP:**\n${ctesp}\n\n**Adultos:**\n${adultos}`;
+        } 
+        else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
+            reply = `Contactos da **ETPC**:\n• Email: ${baseConhecimento.contactos.email}\n• Localização: ${baseConhecimento.contactos.localizacao}`;
+        } 
+        else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
+            reply = "A **ETPC (Escola Técnico Profissional de Cantanhede)** é uma instituição de referência no ensino profissional, aproximando os alunos do mercado de trabalho e do Ensino Superior.";
+        } 
+        else {
+            reply = "Não encontrei essa informação específica. Podes perguntar-me sobre os cursos, a **PAP**, os estágios (**FCT**), as **horas de estágio**, os **apoios sociais** ou os **contactos** da ETPC.";
+        }
 
-            const formattedReply = reply
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>');
+        const formattedReply = reply
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
 
-            typingDiv.innerHTML = formattedReply;
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 1000);
-    } catch (err) {
-        console.error("Erro na função sendMessage:", err);
-    }
+        typingDiv.innerHTML = formattedReply;
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 1000);
 }
 
 function appendMessage(text, sender, isHTML = false) {
