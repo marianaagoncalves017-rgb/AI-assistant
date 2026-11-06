@@ -191,52 +191,18 @@
     </div>
 
     <script>
-        const baseConhecimento = {
-            quantidadeCursos: "A ETPC disponibiliza **11 Cursos Profissionais de Nível 4** (com equivalência ao 12º ano), além de opções CTeSP e Formação para Adultos:\n\n" +
-                               "**Cursos Profissionais (11 opções):**\n" +
-                               "1. Cabeleireiro/a\n" +
-                               "2. Esteticista\n" +
-                               "3. Técnico/a de Apoio à Intervenção Social\n" +
-                               "4. Técnico/a de Comunicação - Assessoria, Relações Públicas e Publicidade\n" +
-                               "5. Técnico/a de Cozinha e Pastelaria\n" +
-                               "6. Técnico/a de Desporto\n" +
-                               "7. Técnico/a de Eletrónica Automóvel\n" +
-                               "8. Técnico/a de Eletrónica e Automação\n" +
-                               "9. Técnico/a de Gestão e Administração\n" +
-                               "10. Técnico/a de Restauração e Bar\n" +
-                               "11. Técnico/a de Sistemas de Computação e Redes",
+        let baseConhecimento = {};
 
-            cursos: "A **oferta formativa completa da ETPC** está estruturada nas seguintes vertentes:\n\n" +
-                    "**1. Cursos Profissionais (Nível 4 - 12º Ano):**\n" +
-                    "• Cabeleireiro/a\n" +
-                    "• Esteticista\n" +
-                    "• Técnico/a de Apoio à Intervenção Social\n" +
-                    "• Técnico/a de Comunicação - Assessoria, Relações Públicas e Publicidade\n" +
-                    "• Técnico/a de Cozinha e Pastelaria\n" +
-                    "• Técnico/a de Desporto\n" +
-                    "• Técnico/a de Eletrónica Automóvel\n" +
-                    "• Técnico/a de Eletrónica e Automação\n" +
-                    "• Técnico/a de Gestão e Administração\n" +
-                    "• Técnico/a de Restauração e Bar\n" +
-                    "• Técnico/a de Sistemas de Computação e Redes\n\n" +
-                    "**2. Cursos CTeSP:**\n" +
-                    "• CDT T. Computador\n" +
-                    "• CDT T. Operador de Informática\n\n" +
-                    "**3. Qualificação de Adultos:**\n" +
-                    "• Formação Modular Certificada",
-
-            pap: "A **PAP (Prova de Aptidão Profissional)** é o projeto prático final individual/equipa realizado no 3º ano e defendido perante um júri de avaliação.",
-
-            estagios: "A **FCT (Formação em Contexto de Trabalho)** é o estágio curricular obrigatório dos cursos profissionais:\n\n" +
-                      "• **Carga Horária:** Tem uma duração total habitualmente variando entre **400 a 420 horas** distribuídas ao longo do 2º e 3º ano do curso.\n" +
-                      "• **Objetivo:** Formação prática direta em ambiente real numa empresa parceira.",
-
-            inscricoes: "As **Inscrições para o Ano Letivo 2026/2027 estão Abertas** na ETPC com apoios sociais disponíveis (transporte, alimentação e bolsas).",
-
-            contactos: "Contactos da **ETPC**:\n• Email: geral@etpc.pt\n• Localização: Cantanhede, Portugal",
-
-            sobre: "A **ETPC** é uma escola de ensino profissional em Cantanhede focada na ligação ao mercado de trabalho e preparação para a universidade."
-        };
+        // Carrega o JSON com a informação
+        async function carregarBD() {
+            try {
+                const res = await fetch('/api/conhecimento.json');
+                baseConhecimento = await res.json();
+            } catch (err) {
+                console.error("Erro ao carregar ficheiro JSON:", err);
+            }
+        }
+        carregarBD();
 
         function handleKeyPress(event) {
             if (event.key === 'Enter') sendMessage();
@@ -263,35 +229,34 @@
                 const qLower = question.toLowerCase();
                 let reply = "";
 
-                // FILTRO DE CONTEÚDOS FORA DE AMBITO
                 if (qLower.includes('futebol') || qLower.includes('benfica') || qLower.includes('porto') || qLower.includes('sporting') || qLower.includes('politica') || qLower.includes('receita')) {
                     reply = "Lamento, mas sou o assistente virtual da ETPC e apenas respondo a questões relacionadas com a escola, cursos e estágios.";
                 } 
-                // 1. ESTÁGIOS / FCT (Tem prioridade absoluta se a palavra estagio/fct estiver na pergunta)
+                // Prioridade 1: Estágio / FCT
                 else if (qLower.includes('estagio') || qLower.includes('estágio') || qLower.includes('fct')) {
                     reply = baseConhecimento.estagios;
                 } 
-                // 2. PAP (Prioridade absoluta para PAP/projeto)
+                // Prioridade 2: PAP
                 else if (qLower.includes('pap') || qLower.includes('aptidao') || qLower.includes('aptidão')) {
                     reply = baseConhecimento.pap;
                 } 
-                // 3. INSCRIÇÕES / BOLSA
+                // Prioridade 3: Inscrições
                 else if (qLower.includes('inscrição') || qLower.includes('inscricao') || qLower.includes('vaga') || qLower.includes('candidatura') || qLower.includes('bolsa') || qLower.includes('apoio')) {
                     reply = baseConhecimento.inscricoes;
                 } 
-                // 4. QUANTIDADE DE CURSOS (Apenas entra se disser "quanto" E disser "curso")
+                // Prioridade 4: Quantidade de Cursos
                 else if ((qLower.includes('quanto') || qLower.includes('número') || qLower.includes('numero') || qLower.includes('total')) && (qLower.includes('curso') || qLower.includes('oferta'))) {
                     reply = baseConhecimento.quantidadeCursos;
                 }
-                // 5. LISTA DE CURSOS
+                // Prioridade 5: Lista de Cursos
                 else if (qLower.includes('curso') || qLower.includes('oferta') || qLower.includes('quais') || qLower.includes('lista')) {
                     reply = baseConhecimento.cursos;
                 } 
-                // 6. CONTACTOS
+                // Prioridade 6: Contactos
                 else if (qLower.includes('contacto') || qLower.includes('email') || qLower.includes('morada') || qLower.includes('cantanhede')) {
                     reply = baseConhecimento.contactos;
                 } 
-                // 7. SOBRE
+                // Prioridade 7: Sobre a escola
                 else if (qLower.includes('escola') || qLower.includes('etpc') || qLower.includes('sobre')) {
                     reply = baseConhecimento.sobre;
                 } 
